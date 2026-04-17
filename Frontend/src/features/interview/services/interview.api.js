@@ -18,3 +18,16 @@ export async function generateInterviewReport({ jobDescription, selfDescription,
     const response = await api.post("api/interview", formData)
     return response.data
 }
+
+export async function getInterviewReportById(id) {
+    const response = await api.get(`api/interview/${id}`)
+    return response.data
+}
+
+export async function downloadResumeText(id) {
+    const response = await api.get(`api/interview/${id}/resume`, {
+        responseType: "blob"
+    })
+
+    return response.data
+}

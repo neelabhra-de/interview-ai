@@ -1,6 +1,7 @@
 const pdfParse = require("pdf-parse")
 const generateInterviewReport = require("../services/ai.service")
 const interviewReportModel = require("../models/interviewReport.model")
+const mongoose = require("mongoose")
 
 
 
@@ -52,5 +53,77 @@ async function generateInterViewReportController(req, res) {
 
 }
 
+async function getInterviewReportByIdController(req, res) {
+    try {
+        const { id } = req.params
 
-module.exports = { generateInterViewReportController }
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({
+                message: "Invalid interview report id"
+            })
+        }
+
+        const interviewReport = await interviewReportModel.findOne({
+            _id: id,
+            user: req.user.id
+        })
+
+        if (!interviewReport) {
+            return res.status(404).json({
+                message: "Interview report not found"
+            })
+        }
+
+        res.status(200).json({
+            interviewReport
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: "Failed to fetch interview report",
+            error: err.message
+        })
+    }
+}
+
+async function downloadResumeTextController(req, res) {
+    try {
+        const { id } = req.params
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({
+                message: "Invalid interview report id"
+            })
+        }
+
+        const interviewReport = await interviewReportModel.findOne({
+            _id: id,
+            user: req.user.id
+        }).select("resume title")
+
+        if (!interviewReport) {
+            return res.status(404).json({
+                message: "Interview report not found"
+            })
+        }
+
+        const filenameBase = (interviewReport.title || "resume")
+            .replace(/[^a-z0-9-_ ]/gi, "")
+            .trim()
+            .replace(/\s+/g, "-") || "resume"
+
+        res.setHeader("Content-Type", "text/plain; charset=utf-8")
+        res.setHeader("Content-Disposition", `attachment; filename="${filenameBase}-resume.txt"`)
+        res.status(200).send(interviewReport.resume || "")
+    } catch (err) {
+        res.status(500).json({
+            message: "Failed to download resume",
+            error: err.message
+        })
+    }
+}
+
+module.exports = {
+    generateInterViewReportController,
+    getInterviewReportByIdController,
+    downloadResumeTextController
+}
