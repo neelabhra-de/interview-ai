@@ -6,7 +6,7 @@ const steps = [
     {
         number: '01',
         title: 'Upload your resume',
-        text: 'Add your PDF resume so InterviewAI can understand your background, strengths, and experience.'
+        text: 'Add your PDF resume so Interview AI can understand your background, strengths, and experience.'
     },
     {
         number: '02',
@@ -37,7 +37,7 @@ const Landing = () => (
         <span className='data-node data-node--three' aria-hidden='true' />
 
         <nav className='landing-nav'>
-            <Link className='landing-logo' to='/'>InterviewAI</Link>
+            <Link className='landing-logo' to='/'>Interview AI</Link>
             <div className='landing-nav__links'>
                 <a href='#features'>Features</a>
                 <a href='#method'>Method</a>
@@ -52,7 +52,7 @@ const Landing = () => (
         <section className='landing-hero'>
             <div className='landing-kicker'>
                 <i />
-                InterviewAI
+                Interview AI
             </div>
             <h1>Turn any job description into a focused interview plan.</h1>
             <p>Upload your resume, paste the role, and build a personalized prep strategy with match scoring, skill gaps, likely questions, and an ATS-friendly resume.</p>
@@ -61,7 +61,7 @@ const Landing = () => (
                 <Link className='landing-btn landing-btn--ghost' to='/login'>Login</Link>
             </div>
 
-            <div className='product-preview' aria-label='InterviewAI product preview'>
+            <div className='product-preview' aria-label='Interview AI product preview'>
                 <div className='preview-scan' />
                 <div className='preview-sidebar'>
                     <span />
@@ -145,7 +145,7 @@ const Landing = () => (
             <div className='report-copy'>
                 <span>Report Preview</span>
                 <h2>See the role through a sharper lens.</h2>
-                <p>InterviewAI turns a raw job post into questions, gaps, score signals, and a roadmap you can actually follow.</p>
+                <p>Interview AI turns a raw job post into questions, gaps, score signals, and a roadmap you can actually follow.</p>
                 <Link className='landing-btn landing-btn--primary' to='/register'>Create Account</Link>
             </div>
             <div className='mini-report'>
@@ -171,7 +171,7 @@ const Landing = () => (
 
         <section className='final-cta'>
             <h2>Ready to build your next interview plan?</h2>
-            <p>Start with your resume and the role you want. InterviewAI will handle the structure.</p>
+            <p>Start with your resume and the role you want. Interview AI will handle the structure.</p>
             <div>
                 <Link className='landing-btn landing-btn--primary' to='/register'>Create Account</Link>
                 <Link className='landing-btn landing-btn--ghost' to='/login'>Login</Link>
@@ -179,12 +179,12 @@ const Landing = () => (
         </section>
 
         <section className='vision-panel' id='vision'>
-            <h2>The Vision Behind InterviewAI</h2>
-            <p>Modern hiring is noisy. InterviewAI helps candidates decode the role, focus their preparation, and walk into interviews with a strategy that matches the job they actually want.</p>
+            <h2>The Vision Behind Interview AI</h2>
+            <p>Modern hiring is noisy. Interview AI helps candidates decode the role, focus their preparation, and walk into interviews with a strategy that matches the job they actually want.</p>
         </section>
 
         <footer className='landing-footer'>
-            <Link to='/' className='landing-logo'>InterviewAI</Link>
+            <Link to='/' className='landing-logo'>Interview AI</Link>
             <div>
                 <a href='#method'>Architecture</a>
                 <a href='#features'>Features</a>

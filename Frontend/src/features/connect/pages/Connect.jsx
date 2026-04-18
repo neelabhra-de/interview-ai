@@ -11,7 +11,7 @@ const Connect = () => (
         <span className='connect-node connect-node--two' aria-hidden='true' />
 
         <nav className='connect-nav'>
-            <Link to='/' className='connect-logo'>InterviewAI</Link>
+            <Link to='/' className='connect-logo'>Interview AI</Link>
             <div>
                 <Link to='/'>Home</Link>
                 <Link to='/login'>Login</Link>
@@ -23,7 +23,7 @@ const Connect = () => (
             <div className='connect-copy'>
                 <p className='connect-eyebrow'>Connect With Us</p>
                 <h1>Built by Neelabhra for sharper interview preparation.</h1>
-                <p>InterviewAI is designed to help candidates move from uncertainty to a focused plan. For feedback, collaboration, or product conversations, connect directly on LinkedIn.</p>
+                <p>Interview AI is designed to help candidates move from uncertainty to a focused plan. For feedback, collaboration, or product conversations, connect directly on LinkedIn.</p>
                 <a className='connect-button' href={linkedInUrl} target='_blank' rel='noreferrer'>
                     <span>Open LinkedIn</span>
                     <svg width='18' height='18' viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'>
@@ -39,7 +39,7 @@ const Connect = () => (
                         <div className='profile-avatar'>ND</div>
                         <span>Creator</span>
                         <strong>Neelabhra De</strong>
-                        <i>LinkedIn / InterviewAI</i>
+                        <i>LinkedIn / Interview AI</i>
                     </div>
                     <div className='profile-card-3d__face profile-card-3d__face--back'>
                         <span>Signal</span>
