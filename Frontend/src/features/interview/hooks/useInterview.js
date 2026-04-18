@@ -68,7 +68,6 @@ export const useInterview = () => {
     }, [ setError, setLoading, setReports ])
 
     const getResumePdf = useCallback(async (interviewReportId) => {
-        setLoading(true)
         setError("")
         let response = null
         try {
@@ -79,14 +78,14 @@ export const useInterview = () => {
             link.setAttribute("download", `resume_${interviewReportId}.pdf`)
             document.body.appendChild(link)
             link.click()
+            link.remove()
+            window.URL.revokeObjectURL(url)
         }
         catch (error) {
             console.log(error)
             setError(error.response?.data?.message || "Could not download the resume PDF.")
-        } finally {
-            setLoading(false)
         }
-    }, [ setError, setLoading ])
+    }, [ setError ])
 
     useEffect(() => {
         if (id) {

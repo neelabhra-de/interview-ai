@@ -1,0 +1,354 @@
+@use "sass:color";
+
+$bg-page: #0d1117;
+$bg-card: #161b22;
+$border-color: #2a3348;
+$text-primary: #e6edf3;
+$text-muted: #7d8590;
+$accent: #ff2d78;
+$accent-alt: #ff6b9d;
+
+.resume-builder-loading {
+    min-height: 100vh;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background:
+        radial-gradient(circle at 50% 30%, rgba($accent, 0.14), transparent 24rem),
+        linear-gradient(145deg, $bg-page, #121722);
+    color: $text-primary;
+    overflow: hidden;
+}
+
+.rubik-scene {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    display: grid;
+    place-items: center;
+    perspective: 900px;
+}
+
+.rubik-cube {
+    position: relative;
+    width: 108px;
+    height: 108px;
+    transform-style: preserve-3d;
+    animation: rubikSolve 4.8s ease-in-out infinite;
+}
+
+.rubik-face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 5px;
+    border: 1px solid rgba($border-color, 0.9);
+    border-radius: 8px;
+    background-color: rgba(#05070d, 0.8);
+    box-shadow: inset 0 0 18px rgba(#000, 0.4);
+
+    i {
+        border-radius: 4px;
+        background-color: $accent;
+        box-shadow: inset 0 0 8px rgba(#fff, 0.14);
+        animation: stickerSolve 4.8s ease-in-out infinite;
+    }
+
+    &--front {
+        transform: rotateY(0deg) translateZ(54px);
+
+        i:nth-child(1),
+        i:nth-child(5),
+        i:nth-child(9) {
+            animation-name: stickerFrontA;
+        }
+
+        i:nth-child(2),
+        i:nth-child(6) {
+            animation-name: stickerFrontB;
+        }
+    }
+
+    &--back {
+        transform: rotateY(180deg) translateZ(54px);
+
+        i {
+            background-color: #3fb950;
+            animation-name: stickerBack;
+        }
+    }
+
+    &--right {
+        transform: rotateY(90deg) translateZ(54px);
+
+        i {
+            background-color: #4a90e2;
+            animation-name: stickerRight;
+        }
+    }
+
+    &--left {
+        transform: rotateY(-90deg) translateZ(54px);
+
+        i {
+            background-color: #f5a623;
+            animation-name: stickerLeft;
+        }
+    }
+
+    &--top {
+        transform: rotateX(90deg) translateZ(54px);
+
+        i {
+            background-color: $accent-alt;
+            animation-name: stickerTop;
+        }
+    }
+
+    &--bottom {
+        transform: rotateX(-90deg) translateZ(54px);
+
+        i {
+            background-color: #e6edf3;
+            animation-name: stickerBottom;
+        }
+    }
+}
+
+.rubik-shadow {
+    position: absolute;
+    bottom: 34px;
+    width: 124px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: rgba(#000, 0.34);
+    filter: blur(10px);
+    animation: shadowPulse 4.8s ease-in-out infinite;
+}
+
+.resume-builder-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    text-align: center;
+
+    p {
+        margin: 0;
+        color: $accent;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        line-height: 1.12;
+        letter-spacing: 0;
+    }
+
+    span {
+        max-width: 590px;
+        color: $text-muted;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+}
+
+.resume-builder-steps {
+    width: min(520px, 100%);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+
+    span {
+        min-height: 44px;
+        display: grid;
+        place-items: center;
+        padding: 0.65rem;
+        border: 1px solid rgba($border-color, 0.82);
+        border-radius: 8px;
+        background-color: rgba($bg-card, 0.74);
+        color: $text-muted;
+        font-size: 0.78rem;
+        text-align: center;
+        animation: stepGlow 1.8s ease-in-out infinite;
+    }
+
+    span:nth-child(2) {
+        animation-delay: 0.24s;
+    }
+
+    span:nth-child(3) {
+        animation-delay: 0.48s;
+    }
+}
+
+@keyframes rubikSolve {
+    0% {
+        transform: rotateX(-22deg) rotateY(35deg) translateY(0);
+    }
+
+    22% {
+        transform: rotateX(-22deg) rotateY(125deg) translateY(-8px);
+    }
+
+    44% {
+        transform: rotateX(22deg) rotateY(210deg) translateY(0);
+    }
+
+    66% {
+        transform: rotateX(-18deg) rotateY(300deg) translateY(-7px);
+    }
+
+    100% {
+        transform: rotateX(-22deg) rotateY(395deg) translateY(0);
+    }
+}
+
+@keyframes stickerFrontA {
+    0%,
+    45% {
+        background-color: #4a90e2;
+    }
+
+    70%,
+    100% {
+        background-color: $accent;
+    }
+}
+
+@keyframes stickerFrontB {
+    0%,
+    45% {
+        background-color: #3fb950;
+    }
+
+    70%,
+    100% {
+        background-color: $accent;
+    }
+}
+
+@keyframes stickerRight {
+    0%,
+    45% {
+        background-color: $accent;
+    }
+
+    70%,
+    100% {
+        background-color: #4a90e2;
+    }
+}
+
+@keyframes stickerBack {
+    0%,
+    45% {
+        background-color: #f5a623;
+    }
+
+    70%,
+    100% {
+        background-color: #3fb950;
+    }
+}
+
+@keyframes stickerLeft {
+    0%,
+    45% {
+        background-color: $accent-alt;
+    }
+
+    70%,
+    100% {
+        background-color: #f5a623;
+    }
+}
+
+@keyframes stickerTop {
+    0%,
+    45% {
+        background-color: #f5a623;
+    }
+
+    70%,
+    100% {
+        background-color: $accent-alt;
+    }
+}
+
+@keyframes stickerBottom {
+    0%,
+    45% {
+        background-color: #4a90e2;
+    }
+
+    70%,
+    100% {
+        background-color: #e6edf3;
+    }
+}
+
+@keyframes stickerSolve {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.94);
+    }
+}
+
+@keyframes shadowPulse {
+    0%,
+    100% {
+        opacity: 0.55;
+        transform: scaleX(1);
+    }
+
+    50% {
+        opacity: 0.32;
+        transform: scaleX(0.76);
+    }
+}
+
+@keyframes stepGlow {
+    0%,
+    100% {
+        border-color: rgba($border-color, 0.82);
+        color: $text-muted;
+    }
+
+    50% {
+        border-color: rgba($accent, 0.48);
+        color: $text-primary;
+    }
+}
+
+@media (max-width: 620px) {
+    .resume-builder-copy h1 {
+        font-size: 1.42rem;
+    }
+
+    .resume-builder-steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rubik-cube,
+    .rubik-shadow,
+    .rubik-face i,
+    .resume-builder-steps span {
+        animation: none;
+    }
+}
