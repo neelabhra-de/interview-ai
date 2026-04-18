@@ -24,5 +24,21 @@ const interviewRouter = require("./routes/interview.routes")
 app.use("/api/auth", authRouter)
 app.use("/api/interview", interviewRouter)
 
+app.use((err, req, res, next) => {
+    if (err.name === "MulterError") {
+        const message = err.code === "LIMIT_FILE_SIZE" ? "Resume PDF must be 3MB or smaller." : err.message
+        return res.status(400).json({ message })
+    }
+
+    if (err.message === "Please upload a PDF resume only.") {
+        return res.status(400).json({ message: err.message })
+    }
+
+    console.error(err)
+    res.status(500).json({
+        message: err.message || "Something went wrong."
+    })
+})
+
 
 module.exports = app

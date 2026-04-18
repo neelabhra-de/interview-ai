@@ -8,13 +8,62 @@ const Home = () => {
     const { loading, generateReport, reports } = useInterview()
     const [jobDescription, setJobDescription] = useState("")
     const [selfDescription, setSelfDescription] = useState("")
+    const [resumeFile, setResumeFile] = useState(null)
+    const [isDraggingResume, setIsDraggingResume] = useState(false)
     const [error, setError] = useState("")
     const resumeInputRef = useRef()
 
     const navigate = useNavigate()
 
+    const validateResumeFile = (file) => {
+        setError("")
+
+        if (!file) {
+            setResumeFile(null)
+            return
+        }
+
+        if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+            setResumeFile(null)
+            if (resumeInputRef.current) {
+                resumeInputRef.current.value = ""
+            }
+            setError("Please upload a PDF resume only.")
+            return
+        }
+
+        if (file.size > 3 * 1024 * 1024) {
+            setResumeFile(null)
+            if (resumeInputRef.current) {
+                resumeInputRef.current.value = ""
+            }
+            setError("Resume PDF must be 3MB or smaller.")
+            return
+        }
+
+        setResumeFile(file)
+    }
+
+    const handleResumeChange = (event) => {
+        validateResumeFile(event.target.files[0])
+    }
+
+    const handleResumeDragOver = (event) => {
+        event.preventDefault()
+        setIsDraggingResume(true)
+    }
+
+    const handleResumeDragLeave = () => {
+        setIsDraggingResume(false)
+    }
+
+    const handleResumeDrop = (event) => {
+        event.preventDefault()
+        setIsDraggingResume(false)
+        validateResumeFile(event.dataTransfer.files[0])
+    }
+
     const handleGenerateReport = async () => {
-        const resumeFile = resumeInputRef.current.files[0]
         setError("")
 
         if (!jobDescription.trim()) {
@@ -27,10 +76,14 @@ const Home = () => {
             return
         }
 
-        const data = await generateReport({ jobDescription, selfDescription, resumeFile })
+        try {
+            const data = await generateReport({ jobDescription, selfDescription, resumeFile })
 
-        if (data?._id) {
-            navigate(`/interview/${data._id}`)
+            if (data?._id) {
+                navigate(`/interview/${data._id}`)
+            }
+        } catch (error) {
+            setError(error.response?.data?.message || "Could not upload your resume PDF. Please try again.")
         }
     }
 
@@ -91,13 +144,18 @@ const Home = () => {
                                 Upload Resume
                                 <span className='badge badge--best'>Best Results</span>
                             </label>
-                            <label className='dropzone' htmlFor='resume'>
+                            <label
+                                className={`dropzone ${isDraggingResume ? "dropzone--active" : ""}`}
+                                htmlFor='resume'
+                                onDragOver={handleResumeDragOver}
+                                onDragLeave={handleResumeDragLeave}
+                                onDrop={handleResumeDrop}>
                                 <span className='dropzone__icon'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" /><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" /></svg>
                                 </span>
-                                <p className='dropzone__title'>Click to upload or drag &amp; drop</p>
+                                <p className='dropzone__title'>{resumeFile ? resumeFile.name : "Click to upload or drag & drop"}</p>
                                 <p className='dropzone__subtitle'>PDF only (Max 3MB)</p>
-                                <input ref={resumeInputRef} hidden type='file' id='resume' name='resume' accept='.pdf,application/pdf' />
+                                <input ref={resumeInputRef} hidden type='file' id='resume' name='resume' accept='.pdf,application/pdf' onChange={handleResumeChange} />
                             </label>
                         </div>
 
