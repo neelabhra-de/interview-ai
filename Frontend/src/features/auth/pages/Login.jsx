@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router'
 import "../auth.form.scss"
 import { useAuth } from '../hooks/useAuth'
+import LoadingExperience from '../../../components/LoadingExperience'
 
 const Login = () => {
 
@@ -17,7 +18,7 @@ const Login = () => {
         setError("")
         try {
             await handleLogin({ email, password })
-            navigate('/', { replace: true })
+            navigate('/interview', { replace: true })
         } catch (error) {
             setError(error.response?.data?.message || error.message || "Could not login. Please try again.")
         }
@@ -25,12 +26,9 @@ const Login = () => {
 
     if (loading) {
         return (
-            <main className='auth-page'>
-                <div className='auth-loader'>
-                    <span />
-                    <h1>Opening your workspace...</h1>
-                </div>
-            </main>
+            <LoadingExperience
+                title='Opening your workspace'
+                subtitle='Syncing your session and loading your interview plans.' />
         )
     }
 
@@ -38,16 +36,26 @@ const Login = () => {
     return (
         <main className='auth-page'>
             <section className='auth-shell'>
-                <div className='auth-orbit' aria-hidden='true'>
-                    <span />
-                    <span />
-                    <span />
-                </div>
+                <div className='auth-stage'>
+                    <div className='auth-copy'>
+                        <p className='auth-eyebrow'>Interview AI</p>
+                        <h1>Welcome back.</h1>
+                        <p>Pick up your prep plan, sharpen your answers, and keep the momentum moving.</p>
+                    </div>
 
-                <div className='auth-copy'>
-                    <p className='auth-eyebrow'>Interview AI</p>
-                    <h1>Welcome back.</h1>
-                    <p>Pick up your prep plan, sharpen your answers, and keep the momentum moving.</p>
+                    <div className='auth-visual' aria-hidden='true'>
+                        <div className='auth-holo'>
+                            <span />
+                            <span />
+                            <span />
+                        </div>
+                        <div className='auth-gridline' />
+                        <div className='auth-chip'>
+                            <i />
+                            <i />
+                            <i />
+                        </div>
+                    </div>
                 </div>
 
                 <div className='form-container'>

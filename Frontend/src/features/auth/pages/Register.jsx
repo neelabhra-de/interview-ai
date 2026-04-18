@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 import "../auth.form.scss"
+import LoadingExperience from '../../../components/LoadingExperience'
 
 const Register = () => {
 
@@ -18,7 +19,7 @@ const Register = () => {
         setError("")
         try {
             await handleRegister({ username, email, password })
-            navigate("/", { replace: true })
+            navigate("/interview", { replace: true })
         } catch (error) {
             setError(error.response?.data?.message || error.message || "Could not create your account. Please try again.")
         }
@@ -26,28 +27,35 @@ const Register = () => {
 
     if (loading) {
         return (
-            <main className='auth-page'>
-                <div className='auth-loader'>
-                    <span />
-                    <h1>Creating your workspace...</h1>
-                </div>
-            </main>
+            <LoadingExperience
+                title='Creating your workspace'
+                subtitle='Setting up your account and interview dashboard.' />
         )
     }
 
     return (
         <main className='auth-page'>
             <section className='auth-shell auth-shell--register'>
-                <div className='auth-orbit' aria-hidden='true'>
-                    <span />
-                    <span />
-                    <span />
-                </div>
+                <div className='auth-stage'>
+                    <div className='auth-copy'>
+                        <p className='auth-eyebrow'>Interview AI</p>
+                        <h1>Build your edge.</h1>
+                        <p>Turn a job description and your resume into focused practice that feels made for the room.</p>
+                    </div>
 
-                <div className='auth-copy'>
-                    <p className='auth-eyebrow'>Interview AI</p>
-                    <h1>Build your edge.</h1>
-                    <p>Turn a job description and your resume into focused practice that feels made for the room.</p>
+                    <div className='auth-visual' aria-hidden='true'>
+                        <div className='auth-holo'>
+                            <span />
+                            <span />
+                            <span />
+                        </div>
+                        <div className='auth-gridline' />
+                        <div className='auth-chip'>
+                            <i />
+                            <i />
+                            <i />
+                        </div>
+                    </div>
                 </div>
 
                 <div className='form-container'>

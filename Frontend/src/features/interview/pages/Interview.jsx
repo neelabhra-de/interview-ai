@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import '../style/interview.scss'
 import { useInterview } from '../hooks/useInterview.js'
 import { useParams } from 'react-router'
+import LoadingExperience from '../../../components/LoadingExperience'
 
 
 
@@ -64,9 +65,9 @@ const Interview = () => {
 
     if (loading || !report) {
         return (
-            <main className='loading-screen'>
-                <h1>{error || 'Loading your interview plan...'}</h1>
-            </main>
+            <LoadingExperience
+                title={error || 'Loading your interview plan'}
+                subtitle={error ? 'Try opening the report again in a moment.' : 'Assembling questions, score insights, and your preparation roadmap.'} />
         )
     }
 

@@ -2,13 +2,18 @@ import { useAuth } from "../hooks/useAuth";
 import { Navigate } from "react-router";
 
 import React from 'react'
+import LoadingExperience from "../../../components/LoadingExperience";
 
 const Protected = ({children}) => {
     const {loading,user} = useAuth()
     
 
     if(loading){
-        return (<main><h1>Loading....</h1></main>)
+        return (
+            <LoadingExperience
+                title='Checking your session'
+                subtitle='Verifying access before opening your workspace.' />
+        )
     }
 
     if(!user){

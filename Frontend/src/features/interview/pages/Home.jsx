@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import "../style/home.scss"
 import { useInterview } from '../hooks/useInterview.js'
 import { useNavigate } from 'react-router'
+import LoadingExperience from '../../../components/LoadingExperience'
 
 const Home = () => {
 
@@ -89,9 +90,9 @@ const Home = () => {
 
     if (loading) {
         return (
-            <main className='loading-screen'>
-                <h1>Loading your interview plan...</h1>
-            </main>
+            <LoadingExperience
+                title='Building your interview plan'
+                subtitle='AI is analyzing your resume, matching the role, and shaping your prep map.' />
         )
     }
 

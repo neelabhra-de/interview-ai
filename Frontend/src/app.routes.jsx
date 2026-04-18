@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { Navigate, createBrowserRouter } from "react-router";
 
 import Login from "./features/auth/pages/Login";
 import Register from "./features/auth/pages/Register";
@@ -12,6 +12,10 @@ import Interview from "./features/interview/pages/Interview";
 export const router = createBrowserRouter( [
     {
         path: "/",
+        element: <Navigate to="/login" replace />
+    },
+    {
+        path: "/interview",
         element: <Protected><Home /></Protected>
     },
     {
