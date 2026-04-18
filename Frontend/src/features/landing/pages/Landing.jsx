@@ -1,33 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router'
+import { appRoutes, siteBrand } from '../../../config/site'
+import {
+    capabilityCards,
+    finalCta,
+    landingFooterLinks,
+    landingHero,
+    landingNavLinks,
+    prepSteps,
+    previewPanel,
+    reportPreview,
+    visionPanel
+} from '../landing.content'
 import '../style/landing.scss'
-
-const steps = [
-    {
-        number: '01',
-        title: 'Upload your resume',
-        text: 'Add your PDF resume so Interview AI can understand your background, strengths, and experience.'
-    },
-    {
-        number: '02',
-        title: 'Paste the job description',
-        text: 'Define the role you want. The system reads requirements, keywords, seniority, and hidden signals.'
-    },
-    {
-        number: '03',
-        title: 'Generate your prep plan',
-        text: 'Get match score, likely questions, skill gaps, roadmap, and resume guidance in one focused report.'
-    }
-]
-
-const features = [
-    ['Role-based match score', 'See how closely your resume aligns with the exact role you are targeting.', '87%'],
-    ['Technical and behavioral questions', 'Practice high-probability questions shaped around the job description.', 'Q/A'],
-    ['Skill gap analysis', 'Identify what to sharpen before the interview, with clear priority signals.', 'GAP'],
-    ['Preparation roadmap', 'Follow a structured plan that turns prep into daily execution.', 'MAP'],
-    ['ATS-friendly resume', 'Generate a tailored resume version designed for parser clarity.', 'PDF'],
-    ['Recent interview plans', 'Return to previous targets and keep iterating as your search evolves.', 'LOG']
-]
 
 const Landing = () => (
     <main className='landing-page'>
@@ -37,31 +22,32 @@ const Landing = () => (
         <span className='data-node data-node--three' aria-hidden='true' />
 
         <nav className='landing-nav'>
-            <Link className='landing-logo' to='/'>Interview AI</Link>
+            <Link className='landing-logo' to={appRoutes.landing}>{siteBrand.name}</Link>
             <div className='landing-nav__links'>
-                <a href='#features'>Features</a>
-                <a href='#method'>Method</a>
-                <a href='#vision'>Vision</a>
+                {landingNavLinks.map(link => (
+                    <a href={link.href} key={link.href}>{link.label}</a>
+                ))}
             </div>
             <div className='landing-nav__actions'>
-                <Link to='/login'>Login</Link>
-                <Link className='landing-nav__cta' to='/register'>Begin</Link>
+                <Link to={appRoutes.login}>Login</Link>
+                <Link className='landing-nav__cta' to={appRoutes.register}>Begin</Link>
             </div>
         </nav>
 
         <section className='landing-hero'>
             <div className='landing-kicker'>
                 <i />
-                Interview AI
+                {landingHero.kicker}
             </div>
-            <h1>Turn any job description into a focused interview plan.</h1>
-            <p>Upload your resume, paste the role, and build a personalized prep strategy with match scoring, skill gaps, likely questions, and an ATS-friendly resume.</p>
+            <h1>{landingHero.title}</h1>
+            <p>{landingHero.text}</p>
             <div className='landing-hero__actions'>
-                <Link className='landing-btn landing-btn--primary' to='/register'>Get Started</Link>
-                <Link className='landing-btn landing-btn--ghost' to='/login'>Login</Link>
+                {landingHero.actions.map(action => (
+                    <Link className={`landing-btn landing-btn--${action.variant}`} to={action.to} key={action.label}>{action.label}</Link>
+                ))}
             </div>
 
-            <div className='product-preview' aria-label='Interview AI product preview'>
+            <div className='product-preview' aria-label={previewPanel.ariaLabel}>
                 <div className='preview-scan' />
                 <div className='preview-sidebar'>
                     <span />
@@ -72,8 +58,8 @@ const Landing = () => (
                     <div className='preview-upload'>
                         <i />
                         <div>
-                            <strong>Resume uploaded</strong>
-                            <span>PDF parsed and ready</span>
+                            <strong>{previewPanel.uploadStatus.title}</strong>
+                            <span>{previewPanel.uploadStatus.text}</span>
                         </div>
                     </div>
                     <div className='preview-bars'>
@@ -83,20 +69,20 @@ const Landing = () => (
                         <span />
                     </div>
                     <div className='preview-question'>
-                        <strong>Technical question</strong>
-                        <span>How would you design a scalable candidate matching flow?</span>
+                        <strong>{previewPanel.question.title}</strong>
+                        <span>{previewPanel.question.text}</span>
                     </div>
                 </div>
                 <div className='preview-score'>
                     <div className='score-ring'>
-                        <strong>87</strong>
+                        <strong>{previewPanel.score}</strong>
                         <span>%</span>
                     </div>
-                    <p>Role match</p>
+                    <p>{previewPanel.scoreLabel}</p>
                     <div className='preview-tags'>
-                        <span>React</span>
-                        <span>System Design</span>
-                        <span>API</span>
+                        {previewPanel.tags.map(tag => (
+                            <span key={tag}>{tag}</span>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -108,7 +94,7 @@ const Landing = () => (
                 <h2>Three moves from uncertainty to a plan.</h2>
             </div>
             <div className='steps-grid'>
-                {steps.map(step => (
+                {prepSteps.map(step => (
                     <article className='step-card' key={step.number}>
                         <span className='step-card__number'>{step.number}</span>
                         <div className='step-card__icon' />
@@ -130,7 +116,7 @@ const Landing = () => (
                     <span />
                     <span />
                 </div>
-                {features.map(([title, text, stat], index) => (
+                {capabilityCards.map(([title, text, stat], index) => (
                     <article className={`feature-card feature-card--${index + 1}`} key={title}>
                         <div className='feature-card__beacon' aria-hidden='true' />
                         <div className='feature-card__mark'>{stat}</div>
@@ -143,10 +129,10 @@ const Landing = () => (
 
         <section className='report-preview-section'>
             <div className='report-copy'>
-                <span>Report Preview</span>
-                <h2>See the role through a sharper lens.</h2>
-                <p>Interview AI turns a raw job post into questions, gaps, score signals, and a roadmap you can actually follow.</p>
-                <Link className='landing-btn landing-btn--primary' to='/register'>Create Account</Link>
+                <span>{reportPreview.eyebrow}</span>
+                <h2>{reportPreview.title}</h2>
+                <p>{reportPreview.text}</p>
+                <Link className='landing-btn landing-btn--primary' to={reportPreview.cta.to}>{reportPreview.cta.label}</Link>
             </div>
             <div className='mini-report'>
                 <div className='mini-report__nav'>
@@ -161,7 +147,7 @@ const Landing = () => (
                     <div className='mini-row' />
                 </div>
                 <div className='mini-report__aside'>
-                    <div className='mini-score'>87%</div>
+                    <div className='mini-score'>{reportPreview.score}</div>
                     <span>Skill gaps</span>
                     <i />
                     <i />
@@ -170,29 +156,30 @@ const Landing = () => (
         </section>
 
         <section className='final-cta'>
-            <h2>Ready to build your next interview plan?</h2>
-            <p>Start with your resume and the role you want. Interview AI will handle the structure.</p>
+            <h2>{finalCta.title}</h2>
+            <p>{finalCta.text}</p>
             <div>
-                <Link className='landing-btn landing-btn--primary' to='/register'>Create Account</Link>
-                <Link className='landing-btn landing-btn--ghost' to='/login'>Login</Link>
+                {finalCta.actions.map(action => (
+                    <Link className={`landing-btn landing-btn--${action.variant}`} to={action.to} key={action.label}>{action.label}</Link>
+                ))}
             </div>
         </section>
 
         <section className='vision-panel' id='vision'>
-            <h2>The Vision Behind Interview AI</h2>
-            <p>Modern hiring is noisy. Interview AI helps candidates decode the role, focus their preparation, and walk into interviews with a strategy that matches the job they actually want.</p>
+            <h2>{visionPanel.title}</h2>
+            <p>{visionPanel.text}</p>
         </section>
 
         <footer className='landing-footer'>
-            <Link to='/' className='landing-logo'>Interview AI</Link>
+            <Link to={appRoutes.landing} className='landing-logo'>{siteBrand.name}</Link>
             <div>
-                <a href='#method'>Architecture</a>
-                <a href='#features'>Features</a>
-                <a href='#vision'>Vision</a>
-                <Link to='/connect'>Connect</Link>
-                <Link to='/login'>Login</Link>
+                {landingFooterLinks.map(link => (
+                    link.to
+                        ? <Link to={link.to} key={link.label}>{link.label}</Link>
+                        : <a href={link.href} key={link.label}>{link.label}</a>
+                ))}
             </div>
-            <span>Built for focused interview preparation.</span>
+            <span>{siteBrand.tagline}</span>
         </footer>
     </main>
 )
