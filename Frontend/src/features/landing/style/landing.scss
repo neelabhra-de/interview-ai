@@ -534,22 +534,104 @@ $font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
 }
 
 .feature-grid {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 1rem;
+    perspective: 1200px;
+    isolation: isolate;
+}
+
+.capability-field {
+    position: absolute;
+    inset: -2rem -1rem;
+    z-index: -1;
+    pointer-events: none;
+    border: 1px solid rgba($border-color, 0.24);
+    border-radius: 8px;
+    background:
+        linear-gradient(rgba($accent, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba($blue, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    transform: rotateX(58deg) translateY(2rem);
+    transform-origin: center top;
+    animation: capabilityPlane 8s ease-in-out infinite;
+
+    span {
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+        background-color: $accent;
+        box-shadow: 0 0 18px rgba($accent, 0.52);
+        animation: capabilityNode 4s ease-in-out infinite;
+    }
+
+    span:nth-child(1) {
+        top: 18%;
+        left: 16%;
+    }
+
+    span:nth-child(2) {
+        top: 48%;
+        right: 19%;
+        background-color: $blue;
+        box-shadow: 0 0 18px rgba($blue, 0.42);
+        animation-delay: 0.6s;
+    }
+
+    span:nth-child(3) {
+        bottom: 14%;
+        left: 46%;
+        background-color: $green;
+        box-shadow: 0 0 18px rgba($green, 0.38);
+        animation-delay: 1.2s;
+    }
 }
 
 .feature-card {
+    position: relative;
     min-height: 190px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    transition: transform 0.25s, border-color 0.25s;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    animation: capabilityFloat 6s ease-in-out infinite;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, transparent, rgba($accent, 0.07), transparent);
+        transform: translateX(-115%);
+        transition: transform 0.65s;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        width: 72px;
+        height: 72px;
+        border: 1px solid rgba($accent, 0.12);
+        border-radius: 8px;
+        transform: rotateX(62deg) rotateZ(45deg);
+        animation: tokenTurn 5s ease-in-out infinite;
+    }
 
     &:hover {
-        transform: translateY(-6px);
+        animation-play-state: paused;
+        transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
         border-color: rgba($accent, 0.35);
+        box-shadow: 0 22px 56px rgba(#000, 0.22), 0 0 28px rgba($accent, 0.08);
+
+        &::before {
+            transform: translateX(115%);
+        }
     }
 
     &--1 {
@@ -558,18 +640,34 @@ $font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
 
     &--2 {
         grid-column: span 5;
+        animation-delay: 0.15s;
     }
 
     &--3,
     &--4 {
         grid-column: span 6;
+        animation-delay: 0.3s;
     }
 
     &--5,
     &--6 {
         grid-column: span 6;
         min-height: 150px;
+        animation-delay: 0.45s;
     }
+}
+
+.feature-card__beacon {
+    position: absolute;
+    left: 1.25rem;
+    top: 1.25rem;
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgba($accent, 0.55);
+    border-radius: 3px;
+    background-color: rgba($accent, 0.12);
+    box-shadow: 0 0 16px rgba($accent, 0.25);
+    animation: beaconPulse 1.9s ease-in-out infinite;
 }
 
 .feature-card__mark {
@@ -578,6 +676,13 @@ $font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
     font-size: 2.6rem;
     font-weight: 900;
     align-self: flex-end;
+    transform: translateZ(18px);
+    transition: color 0.25s, text-shadow 0.25s;
+}
+
+.feature-card:hover .feature-card__mark {
+    color: rgba($accent, 0.5);
+    text-shadow: 0 0 22px rgba($accent, 0.2);
 }
 
 .report-preview-section {
@@ -804,6 +909,69 @@ $font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
     }
 }
 
+@keyframes capabilityPlane {
+    0%,
+    100% {
+        opacity: 0.42;
+        transform: rotateX(58deg) translateY(2rem) translateZ(0);
+    }
+
+    50% {
+        opacity: 0.78;
+        transform: rotateX(58deg) translateY(1.2rem) translateZ(12px);
+    }
+}
+
+@keyframes capabilityNode {
+    0%,
+    100% {
+        opacity: 0.35;
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-12px) scale(1.2);
+    }
+}
+
+@keyframes capabilityFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes tokenTurn {
+    0%,
+    100% {
+        opacity: 0.35;
+        transform: rotateX(62deg) rotateZ(45deg) translateZ(0);
+    }
+
+    50% {
+        opacity: 0.72;
+        transform: rotateX(62deg) rotateZ(225deg) translateZ(10px);
+    }
+}
+
+@keyframes beaconPulse {
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.18);
+    }
+}
+
 @media (max-width: 900px) {
     .landing-nav__links {
         display: none;
@@ -825,6 +993,10 @@ $font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
 
     .feature-card {
         grid-column: span 12;
+    }
+
+    .capability-field {
+        display: none;
     }
 
     .landing-footer {
@@ -869,7 +1041,12 @@ $font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
     .preview-bars span,
     .score-ring,
     .mini-report,
-    .data-node {
+    .data-node,
+    .capability-field,
+    .capability-field span,
+    .feature-card,
+    .feature-card::after,
+    .feature-card__beacon {
         animation: none;
     }
 }

@@ -125,8 +125,14 @@ const Landing = () => (
                 <h2>Everything you need before the interview room.</h2>
             </div>
             <div className='feature-grid'>
+                <div className='capability-field' aria-hidden='true'>
+                    <span />
+                    <span />
+                    <span />
+                </div>
                 {features.map(([title, text, stat], index) => (
                     <article className={`feature-card feature-card--${index + 1}`} key={title}>
+                        <div className='feature-card__beacon' aria-hidden='true' />
                         <div className='feature-card__mark'>{stat}</div>
                         <h3>{title}</h3>
                         <p>{text}</p>
