@@ -234,6 +234,7 @@ const Home = () => {
                 <a href='#'>Privacy Policy</a>
                 <a href='#'>Terms of Service</a>
                 <a href='#'>Help Center</a>
+                <button type='button' onClick={() => navigate('/connect')}>Connect</button>
             </footer>
         </div>
     )

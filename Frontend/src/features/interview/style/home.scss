@@ -467,7 +467,12 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     padding-bottom: 1rem;
     animation: slideInSoft 0.7s 0.18s ease both;
 
-    a {
+    a,
+    button {
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        font-family: $font-stack;
         position: relative;
         font-size: 0.8rem;
         color: $text-muted;
