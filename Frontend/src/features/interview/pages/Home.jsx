@@ -3,10 +3,12 @@ import "../style/home.scss"
 import { useInterview } from '../hooks/useInterview.js'
 import { useNavigate } from 'react-router'
 import LoadingExperience from '../../../components/LoadingExperience'
+import { useAuth } from '../../auth/hooks/useAuth.js'
 
 const Home = () => {
 
     const { loading, generateReport, reports } = useInterview()
+    const { handleLogout } = useAuth()
     const [jobDescription, setJobDescription] = useState("")
     const [selfDescription, setSelfDescription] = useState("")
     const [resumeFile, setResumeFile] = useState(null)
@@ -15,6 +17,11 @@ const Home = () => {
     const resumeInputRef = useRef()
 
     const navigate = useNavigate()
+
+    const handleUserLogout = async () => {
+        await handleLogout()
+        navigate('/login', { replace: true })
+    }
 
     const validateResumeFile = (file) => {
         setError("")
@@ -98,6 +105,15 @@ const Home = () => {
 
     return (
         <div className='home-page'>
+
+            <nav className='workspace-actions'>
+                <button type='button' className='workspace-action workspace-action--active' onClick={() => navigate('/interview')}>
+                    <span>Home</span>
+                </button>
+                <button type='button' className='workspace-action workspace-action--logout' onClick={handleUserLogout}>
+                    <span>Logout</span>
+                </button>
+            </nav>
 
             {/* Page Header */}
             <header className='page-header'>

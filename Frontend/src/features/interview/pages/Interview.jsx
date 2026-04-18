@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import '../style/interview.scss'
 import { useInterview } from '../hooks/useInterview.js'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import LoadingExperience from '../../../components/LoadingExperience'
 import ResumeBuilderLoading from '../../../components/ResumeBuilderLoading'
+import { useAuth } from '../../auth/hooks/useAuth.js'
 
 
 
@@ -63,6 +64,8 @@ const Interview = () => {
     const [ activeNav, setActiveNav ] = useState('technical')
     const [ resumeLoading, setResumeLoading ] = useState(false)
     const { report, loading, error, getResumePdf } = useInterview()
+    const { handleLogout } = useAuth()
+    const navigate = useNavigate()
     const { id } = useParams()
 
     const handleResumeDownload = async () => {
@@ -72,6 +75,11 @@ const Interview = () => {
         } finally {
             setResumeLoading(false)
         }
+    }
+
+    const handleUserLogout = async () => {
+        await handleLogout()
+        navigate('/login', { replace: true })
     }
 
     if (loading || !report) {
@@ -102,6 +110,14 @@ const Interview = () => {
                 {/* ── Left Nav ── */}
                 <nav className='interview-nav'>
                     <div className="nav-content">
+                        <div className='interview-nav__actions'>
+                            <button type='button' className='nav-action-btn' onClick={() => navigate('/interview')}>
+                                Home
+                            </button>
+                            <button type='button' className='nav-action-btn nav-action-btn--logout' onClick={handleUserLogout}>
+                                Logout
+                            </button>
+                        </div>
                         <p className='interview-nav__label'>Sections</p>
                         {NAV_ITEMS.map(item => (
                             <button

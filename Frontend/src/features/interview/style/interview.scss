@@ -110,6 +110,52 @@ $severity-low: #3fb950;
         align-items: center;
         flex-shrink: 0;
     }
+
+    &__actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        padding: 0 0.5rem 1rem;
+        animation: navActionsIn 0.55s ease both;
+    }
+}
+
+.nav-action-btn {
+    position: relative;
+    min-height: 38px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    background-color: rgba($bg-panel, 0.7);
+    color: $text-muted;
+    cursor: pointer;
+    font-family: $font-stack;
+    font-size: 0.78rem;
+    font-weight: 700;
+    overflow: hidden;
+    transition: color 0.2s, border-color 0.2s, transform 0.18s;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(110deg, transparent, rgba($accent, 0.2), transparent);
+        transform: translateX(-110%);
+        transition: transform 0.42s;
+    }
+
+    &:hover {
+        color: $text-primary;
+        border-color: rgba($accent, 0.46);
+        transform: translateY(-2px);
+
+        &::before {
+            transform: translateX(110%);
+        }
+    }
+
+    &--logout:hover {
+        color: #fff;
+    }
 }
 
 // ── Center Content ────────────────────────────────────────────────────────────
@@ -590,10 +636,23 @@ $severity-low: #3fb950;
     }
 }
 
+@keyframes navActionsIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .resume-download-btn,
     .resume-download-btn__shine,
-    .resume-download-btn__icon {
+    .resume-download-btn__icon,
+    .interview-nav__actions {
         animation: none;
     }
 }
