@@ -391,26 +391,42 @@ $font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
 }
 
 .score-ring {
+    position: relative;
     width: 126px;
-    height: 126px;
-    display: grid;
-    place-items: center;
+    aspect-ratio: 1;
+    flex: 0 0 126px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    border: 8px solid rgba($accent, 0.18);
-    background:
-        radial-gradient(circle at center, $bg-deep 56%, transparent 57%),
-        conic-gradient($accent 0 87%, rgba($border-color, 0.9) 87% 100%);
+    background: conic-gradient($accent 0 87%, rgba($border-color, 0.9) 87% 100%);
+    box-shadow: inset 0 0 0 8px rgba($accent, 0.14), 0 0 26px rgba($accent, 0.1);
     animation: ringPulse 2.5s ease-in-out infinite;
 
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 14px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 45% 36%, rgba($bg-panel, 0.92), $bg-deep 72%);
+        border: 1px solid rgba($border-color, 0.64);
+    }
+
     strong {
+        position: relative;
+        z-index: 1;
         font-size: 2rem;
         line-height: 1;
     }
 
     span {
-        margin-top: -1rem;
+        position: relative;
+        z-index: 1;
+        margin-top: 0.1rem;
         color: $text-muted;
         font-size: 0.7rem;
+        line-height: 1;
     }
 }
 
