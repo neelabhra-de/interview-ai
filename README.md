@@ -121,10 +121,6 @@ npm run dev
 
 ---
 
-## 🌐 Deployment
-- Frontend: Vercel
-- Backend: Render
-- Database: MongoDB Atlas
 
 ---
 
