@@ -113,29 +113,6 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js (v16+)
-- MongoDB
-- Google GenAI API Key
-
----
-
-### Backend Setup
-cd backend  
-npm install  
-
-Create a .env file:
-
-GOOGLE_GENAI_API_KEY=your_key  
-JWT_SECRET=your_secret  
-MONGODB_URI=your_mongo_uri  
-
-Run:
-npm run dev  
-
----
 
 ### Frontend Setup
 cd frontend  
