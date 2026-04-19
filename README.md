@@ -122,8 +122,6 @@ npm run dev
 ---
 
 
----
-
 ## 📌 Future Improvements
 - Mock interview simulation
 - Voice-based interview practice
