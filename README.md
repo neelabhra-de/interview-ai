@@ -114,12 +114,6 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
 ---
 
 
-### Frontend Setup
-cd frontend  
-npm install  
-npm run dev  
-
----
 
 
 ## 📌 Future Improvements
