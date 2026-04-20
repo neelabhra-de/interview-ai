@@ -128,5 +128,4 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
 
 ## 👨‍💻 Author
 Neelabhra De  
-Full Stack Developer (MERN + AI Integration)
 
