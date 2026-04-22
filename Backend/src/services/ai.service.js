@@ -59,20 +59,23 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
 async function generatePdfFromHtml(htmlContent) {
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: "new",
         args: [
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
-            "--disable-gpu"
+            "--disable-gpu",
+            "--disable-extensions"
         ]
     });
 
     const page = await browser.newPage();
+    await page.setViewport({ width: 1024, height: 768 });
 
     await page.setContent(htmlContent, {
-        waitUntil: "networkidle0"
+        waitUntil: "networkidle2"
     });
+
     const pdfBuffer = await page.pdf({
         format: "A4",
         margin: {
