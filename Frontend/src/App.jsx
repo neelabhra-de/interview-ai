@@ -3,6 +3,7 @@ import { RouterProvider } from 'react-router'
 import { router } from './app.routes.jsx'
 import { AuthProvider } from './features/auth/auth.context.jsx'
 import { InterviewProvider } from './features/interview/interview.context.jsx'
+import { Analytics } from '@vercel/analytics/react'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         </InterviewProvider>
         
       </AuthProvider>
+      <Analytics />
     </div>
   )
 }
