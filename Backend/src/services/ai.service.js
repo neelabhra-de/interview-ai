@@ -58,36 +58,51 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
 
 async function generatePdfFromHtml(htmlContent) {
-    const browser = await puppeteer.launch({
-        headless: "new",
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage",
-            "--disable-gpu",
-            "--disable-extensions"
-        ]
-    });
+    let browser;
+    try {
+        const launchOptions = {
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--disable-extensions"
+            ]
+        };
 
-    const page = await browser.newPage();
-    await page.setViewport({ width: 1024, height: 768 });
-
-    await page.setContent(htmlContent, {
-        waitUntil: "networkidle2"
-    });
-
-    const pdfBuffer = await page.pdf({
-        format: "A4",
-        margin: {
-            top: "20mm",
-            bottom: "20mm",
-            left: "15mm",
-            right: "15mm"
+        // For production (Render), try to use system-installed Chrome
+        if (process.env.NODE_ENV === "production" || process.env.RENDER === "true") {
+            launchOptions.executablePath = "/usr/bin/google-chrome";
         }
-    });
 
-    await browser.close();
-    return pdfBuffer;
+        browser = await puppeteer.launch(launchOptions);
+
+        const page = await browser.newPage();
+        await page.setViewport({ width: 1024, height: 768 });
+
+        await page.setContent(htmlContent, {
+            waitUntil: "networkidle2"
+        });
+
+        const pdfBuffer = await page.pdf({
+            format: "A4",
+            margin: {
+                top: "20mm",
+                bottom: "20mm",
+                left: "15mm",
+                right: "15mm"
+            }
+        });
+
+        await browser.close();
+        return pdfBuffer;
+    } catch (error) {
+        if (browser) {
+            await browser.close().catch(() => {});
+        }
+        console.error("PDF Generation Error:", error);
+        throw new Error(`Failed to generate PDF: ${error.message}`);
+    }
 }
 
 
