@@ -6,8 +6,22 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
+
+// Configure CORS to accept requests from multiple origins
+const allowedOrigins = [
+    "http://localhost:5173",                           // Local development
+    process.env.FRONTEND_URL,                          // Environment variable (production frontend)
+    "https://interview-ai-green.vercel.app",           // Vercel deployment
+].filter(Boolean)
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true)
+        } else {
+            callback(new Error("Not allowed by CORS"))
+        }
+    },
     credentials: true
 }))
 
