@@ -2,8 +2,9 @@ services:
   - type: web
     name: interview-ai-backend
     env: node
-    buildCommand: cd Backend && npm install && npx puppeteer browsers install chrome
-    startCommand: cd Backend && npm start
+    root_dir: Backend
+    buildCommand: npm install && npx puppeteer browsers install chrome
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
