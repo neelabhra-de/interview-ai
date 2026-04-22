@@ -61,19 +61,16 @@ async function generatePdfFromHtml(htmlContent) {
     let browser;
     try {
         const launchOptions = {
+            headless: "new",
             args: [
                 "--no-sandbox",
                 "--disable-setuid-sandbox",
                 "--disable-dev-shm-usage",
                 "--disable-gpu",
-                "--disable-extensions"
+                "--disable-extensions",
+                "--disable-web-resources"
             ]
         };
-
-        // For production (Render), try to use system-installed Chrome
-        if (process.env.NODE_ENV === "production" || process.env.RENDER === "true") {
-            launchOptions.executablePath = "/usr/bin/google-chrome";
-        }
 
         browser = await puppeteer.launch(launchOptions);
 
