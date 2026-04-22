@@ -76,7 +76,8 @@ async function getAllInterviewReportsController(req, res) {
 
 
 /**
- * @description Controller to generate resume PDF based on user self description, resume and job description.
+ * @description Controller to generate resume HTML based on user self description, resume and job description.
+ * Frontend will convert HTML to PDF using html2pdf or jsPDF
  */
 async function generateResumePdfController(req, res) {
     const { interviewReportId } = req.params
@@ -91,14 +92,12 @@ async function generateResumePdfController(req, res) {
 
     const { resume, jobDescription, selfDescription } = interviewReport
 
-    const pdfBuffer = await generateResumePdf({ resume, jobDescription, selfDescription })
+    const resumeHtml = await generateResumePdf({ resume, jobDescription, selfDescription })
 
-    res.set({
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename=resume_${interviewReportId}.pdf`
+    res.status(200).json({
+        message: "Resume HTML generated successfully.",
+        resumeHtml: resumeHtml.html
     })
-
-    res.send(pdfBuffer)
 }
 
 module.exports = { generateInterViewReportController, getInterviewReportByIdController, getAllInterviewReportsController, generateResumePdfController }

@@ -2,6 +2,7 @@ import { getAllInterviewReports, generateInterviewReport, getInterviewReportById
 import { useCallback, useContext, useEffect } from "react"
 import { InterviewContext } from "../interview.context"
 import { useParams } from "react-router"
+import html2pdf from "html2pdf.js"
 
 
 export const useInterview = () => {
@@ -72,14 +73,23 @@ export const useInterview = () => {
         let response = null
         try {
             response = await generateResumePdf({ interviewReportId })
-            const url = window.URL.createObjectURL(new Blob([ response ], { type: "application/pdf" }))
-            const link = document.createElement("a")
-            link.href = url
-            link.setAttribute("download", `resume_${interviewReportId}.pdf`)
-            document.body.appendChild(link)
-            link.click()
-            link.remove()
-            window.URL.revokeObjectURL(url)
+            
+            // Create a temporary div to hold the HTML
+            const element = document.createElement("div")
+            element.innerHTML = response.resumeHtml
+            element.style.padding = "20px"
+            
+            // Configure html2pdf options
+            const opt = {
+                margin: 10,
+                filename: `resume_${interviewReportId}.pdf`,
+                image: { type: "jpeg", quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: "portrait", unit: "mm", format: "a4" }
+            }
+            
+            // Generate and download PDF
+            await html2pdf().set(opt).from(element).save()
         }
         catch (error) {
             console.log(error)
