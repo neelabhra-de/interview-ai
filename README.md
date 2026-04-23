@@ -85,6 +85,15 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
 
 ---
 
+## 🚀 Deployment & Monitoring
+
+- Frontend deployed on Vercel  
+- Backend deployed on Render (free tier)  
+- Backend health monitored using UptimeRobot to prevent cold starts  
+- Added `/health` endpoint for uptime checks  
+
+---
+
 ## ⚙️ How It Works
 
 1. Upload your resume (PDF)  
