@@ -35,6 +35,15 @@ const interviewRouter = require("./routes/interview.routes")
 
 /*using all the routes here*/
 
+// Health check endpoint for monitoring services (UptimeRobot, etc.)
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'OK',
+        message: 'Server is running',
+        timestamp: new Date().toISOString()
+    })
+})
+
 app.use("/api/auth", authRouter)
 app.use("/api/interview", interviewRouter)
 
