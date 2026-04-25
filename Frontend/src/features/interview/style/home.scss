@@ -117,6 +117,148 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     }
 }
 
+.mock-feature-strip {
+    width: 100%;
+    max-width: 900px;
+    border: 1px solid rgba($border-color, 0.9);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr auto;
+    gap: 1rem;
+    align-items: stretch;
+    background:
+        radial-gradient(circle at 95% 10%, rgba($accent, 0.15), transparent 11rem),
+        linear-gradient(rgba($accent, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba($accent, 0.04) 1px, transparent 1px),
+        rgba($bg-card, 0.9);
+    background-size: auto, 24px 24px, 24px 24px, auto;
+    animation: slideInSoft 0.6s 0.08s ease both;
+}
+
+.mock-feature-strip__copy {
+    h2 {
+        margin: 0.55rem 0 0.55rem;
+        font-size: 1.38rem;
+        line-height: 1.2;
+        color: $text-primary;
+    }
+
+    p {
+        margin: 0;
+        color: $text-muted;
+        line-height: 1.55;
+        font-size: 0.9rem;
+    }
+}
+
+.mock-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.22rem 0.58rem;
+    border-radius: 999px;
+    border: 1px solid rgba($accent, 0.45);
+    background-color: rgba($accent, 0.12);
+    color: color.adjust($text-primary, $lightness: 5%);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.mock-feature-strip__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+
+    i {
+        font-style: normal;
+        font-size: 0.74rem;
+        color: #ffb8d2;
+        border: 1px solid rgba($accent-alt, 0.32);
+        background-color: rgba($accent-alt, 0.1);
+        border-radius: 8px;
+        padding: 0.2rem 0.45rem;
+    }
+}
+
+.mock-feature-strip__panel {
+    position: relative;
+    border: 1px solid rgba($border-color, 0.66);
+    border-radius: 0.75rem;
+    padding: 0.95rem;
+    background-color: rgba($bg-panel, 0.68);
+    overflow: hidden;
+}
+
+.mock-rail {
+    height: 38px;
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+    border: 1px solid rgba($border-color, 0.65);
+    background: linear-gradient(90deg, rgba($accent, 0.22), rgba($accent-alt, 0.12), rgba($bg-input, 0.95));
+    animation: railFlow 2.6s ease-in-out infinite;
+
+    &--2 {
+        width: 84%;
+        animation-delay: 0.2s;
+    }
+
+    &--3 {
+        width: 66%;
+        animation-delay: 0.4s;
+    }
+}
+
+.mock-orb {
+    position: absolute;
+    right: 0.8rem;
+    bottom: 0.8rem;
+    width: 90px;
+    height: 90px;
+    border-radius: 999px;
+    border: 2px solid rgba(#3fb950, 0.7);
+    background-color: rgba($bg-page, 0.92);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    box-shadow: 0 0 28px rgba(#3fb950, 0.16);
+    animation: orbPulse 2.3s ease-in-out infinite;
+
+    strong {
+        font-size: 1.38rem;
+        line-height: 1;
+        color: #3fb950;
+    }
+
+    span {
+        font-size: 0.63rem;
+        color: $text-muted;
+        text-transform: uppercase;
+    }
+}
+
+.mock-feature-strip__cta {
+    align-self: center;
+    min-height: 48px;
+    border-radius: 0.65rem;
+    border: 1px solid rgba($accent, 0.52);
+    background: linear-gradient(135deg, rgba($accent, 0.96), rgba($accent-alt, 0.9));
+    color: #fff;
+    font-family: $font-stack;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 32px rgba($accent, 0.24);
+    }
+}
+
 // ── Main Card ─────────────────────────────────────────────────────────────────
 .interview-card {
     width: 100%;
@@ -392,6 +534,12 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     }
 }
 
+.footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
 .recent-reports{
     display: flex;
     flex-direction: column;
@@ -540,6 +688,28 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     }
 }
 
+@keyframes railFlow {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(6px);
+    }
+}
+
+@keyframes orbPulse {
+    0%,
+    100% {
+        box-shadow: 0 0 10px rgba(#3fb950, 0.1);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(#3fb950, 0.28);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .workspace-actions,
     .recent-reports,
@@ -566,6 +736,14 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         p {
             font-size: 0.85rem;
         }
+    }
+
+    .mock-feature-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .mock-feature-strip__cta {
+        width: 100%;
     }
 
     .interview-card {
@@ -662,6 +840,24 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         }
     }
 
+    .mock-feature-strip {
+        padding: 0.9rem;
+        gap: 0.8rem;
+    }
+
+    .mock-feature-strip__copy h2 {
+        font-size: 1.08rem;
+    }
+
+    .mock-feature-strip__copy p {
+        font-size: 0.8rem;
+    }
+
+    .mock-orb {
+        width: 76px;
+        height: 76px;
+    }
+
     .panel {
         padding: 0.75rem;
         gap: 0.5rem;
@@ -755,5 +951,13 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         button {
             width: 100%;
         }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mock-feature-strip,
+    .mock-rail,
+    .mock-orb {
+        animation: none;
     }
 }

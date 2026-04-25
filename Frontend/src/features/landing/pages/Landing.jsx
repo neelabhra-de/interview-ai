@@ -7,6 +7,7 @@ import {
     landingFooterLinks,
     landingHero,
     landingNavLinks,
+    mockSpotlight,
     prepSteps,
     previewPanel,
     reportPreview,
@@ -152,6 +153,30 @@ const Landing = () => (
                     <i />
                     <i />
                 </div>
+            </div>
+        </section>
+
+        <section className='mock-spotlight-section' id='mock'>
+            <div className='mock-spotlight-copy'>
+                <span>{mockSpotlight.eyebrow}</span>
+                <h2>{mockSpotlight.title}</h2>
+                <p>{mockSpotlight.text}</p>
+                <div className='mock-spotlight-chips'>
+                    {mockSpotlight.chips.map(chip => (
+                        <i key={chip}>{chip}</i>
+                    ))}
+                </div>
+                <Link className='landing-btn landing-btn--primary' to={mockSpotlight.cta.to}>{mockSpotlight.cta.label}</Link>
+            </div>
+            <div className='mock-spotlight-panel' aria-hidden='true'>
+                <div className='mock-line mock-line--1' />
+                <div className='mock-line mock-line--2' />
+                <div className='mock-line mock-line--3' />
+                <div className='mock-score'>
+                    <strong>8.6</strong>
+                    <span>avg score</span>
+                </div>
+                <div className='mock-callout'>Question 4/8 - Behavioral</div>
             </div>
         </section>
 

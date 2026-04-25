@@ -4,6 +4,7 @@ import { useInterview } from '../hooks/useInterview.js'
 import { useNavigate } from 'react-router'
 import LoadingExperience from '../../../components/LoadingExperience'
 import { useAuth } from '../../auth/hooks/useAuth.js'
+import { appRoutes } from '../../../config/site.js'
 
 const Home = () => {
 
@@ -121,6 +122,37 @@ const Home = () => {
                 <p>Let our AI analyze the job requirements and your unique profile to build a winning strategy.</p>
             </header>
 
+            <section className='mock-feature-strip'>
+                <div className='mock-feature-strip__copy'>
+                    <span className='mock-badge'>New: Mock Interview Arena</span>
+                    <h2>Practice answer-by-answer with instant scoring.</h2>
+                    <p>Run a focused mock session with real-time feedback, what was missing, and an improved answer after each question.</p>
+                    <div className='mock-feature-strip__chips'>
+                        <i>8 Question Session</i>
+                        <i>0-10 Scoring</i>
+                        <i>Final Summary</i>
+                    </div>
+                </div>
+
+                <div className='mock-feature-strip__panel' aria-hidden='true'>
+                    <div className='mock-rail mock-rail--1' />
+                    <div className='mock-rail mock-rail--2' />
+                    <div className='mock-rail mock-rail--3' />
+                    <div className='mock-orb'>
+                        <strong>9.1</strong>
+                        <span>latest score</span>
+                    </div>
+                </div>
+
+                <button
+                    type='button'
+                    onClick={() => navigate(appRoutes.mockInterview)}
+                    className='mock-feature-strip__cta'
+                >
+                    Start Mock Interview
+                </button>
+            </section>
+
             {/* Main Card */}
             <div className='interview-card'>
                 <div className='interview-card__body'>
@@ -210,15 +242,6 @@ const Home = () => {
                             className='generate-btn'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" /></svg>
                             Generate My Interview Strategy
-                        </button>
-
-                        {/* New button to start the mock interview flow */}
-                        <button
-                            type='button'
-                            onClick={() => navigate('/mock-interview')}
-                            className='generate-btn generate-btn--secondary mock-start-btn'
-                        >
-                            Start Mock Interview
                         </button>
                     </div>
                 </div>

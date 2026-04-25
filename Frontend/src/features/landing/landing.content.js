@@ -2,6 +2,7 @@ import { appRoutes, siteBrand } from '../../config/site'
 
 export const landingNavLinks = [
     { label: 'Features', href: '#features' },
+    { label: 'Mock', href: '#mock' },
     { label: 'Method', href: '#method' },
     { label: 'Vision', href: '#vision' }
 ]
@@ -52,6 +53,7 @@ export const prepSteps = [
 export const capabilityCards = [
     ['Role-based match score', 'See how closely your resume aligns with the exact role you are targeting.', '87%'],
     ['Technical and behavioral questions', 'Practice high-probability questions shaped around the job description.', 'Q/A'],
+    ['Mock interview mode', 'Run a question-by-question simulation with instant scoring and improved answers.', 'LIVE'],
     ['Skill gap analysis', 'Identify what to sharpen before the interview, with clear priority signals.', 'GAP'],
     ['Preparation roadmap', 'Follow a structured plan that turns prep into daily execution.', 'MAP'],
     ['ATS-friendly resume', 'Generate a tailored resume version designed for parser clarity.', 'PDF'],
@@ -64,6 +66,14 @@ export const reportPreview = {
     text: `${siteBrand.name} turns a raw job post into questions, gaps, score signals, and a roadmap you can actually follow.`,
     cta: { label: 'Create Account', to: appRoutes.register },
     score: `${previewPanel.score}%`
+}
+
+export const mockSpotlight = {
+    eyebrow: 'Mock Interview',
+    title: 'Practice like the interview is happening now.',
+    text: 'Launch a guided mock session, answer one question at a time, and get score-based feedback, missing points, and better sample answers before your real round.',
+    cta: { label: 'Unlock Mock Interview', to: appRoutes.register },
+    chips: [ 'Score 0-10', 'Strengths + Gaps', 'Improved Answer', 'Final Summary' ]
 }
 
 export const finalCta = {

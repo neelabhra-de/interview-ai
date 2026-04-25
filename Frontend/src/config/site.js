@@ -9,7 +9,8 @@ export const appRoutes = {
     login: '/login',
     register: '/register',
     connect: '/connect',
-    interview: '/interview'
+    interview: '/interview',
+    mockInterview: '/mock-interview'
 }
 
 export const socialLinks = {
