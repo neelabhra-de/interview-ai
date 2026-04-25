@@ -204,12 +204,23 @@ const Home = () => {
                 {/* Card Footer */}
                 <div className='interview-card__footer'>
                     <span className='footer-info'>{error || "AI-Powered Strategy Generation - Approx 30s"}</span>
-                    <button
-                        onClick={handleGenerateReport}
-                        className='generate-btn'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" /></svg>
-                        Generate My Interview Strategy
-                    </button>
+                    <div className='footer-actions'>
+                        <button
+                            onClick={handleGenerateReport}
+                            className='generate-btn'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" /></svg>
+                            Generate My Interview Strategy
+                        </button>
+
+                        {/* New button to start the mock interview flow */}
+                        <button
+                            type='button'
+                            onClick={() => navigate('/mock-interview')}
+                            className='generate-btn generate-btn--secondary mock-start-btn'
+                        >
+                            Start Mock Interview
+                        </button>
+                    </div>
                 </div>
             </div>
 
