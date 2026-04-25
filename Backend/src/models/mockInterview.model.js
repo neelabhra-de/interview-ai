@@ -93,11 +93,10 @@ mockInterviewSchema.index({ user: 1, createdAt: -1 });
 mockInterviewSchema.index({ user: 1, status: 1 });
 
 // Calculate duration when session completes
-mockInterviewSchema.pre('save', function(next) {
+mockInterviewSchema.pre('save', function() {
     if (this.completedAt && this.startedAt) {
         this.totalTimeSpent = Math.floor((this.completedAt - this.startedAt) / 1000);
     }
-    next();
 });
 
 module.exports = mongoose.model("mockInterviews", mockInterviewSchema);

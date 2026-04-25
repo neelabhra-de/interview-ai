@@ -98,11 +98,10 @@ mockQuestionSchema.index({ session: 1, questionNumber: 1 });
 mockQuestionSchema.index({ session: 1, 'feedback.score': 1 });
 
 // Auto-calculate time spent when question is answered
-mockQuestionSchema.pre('save', function(next) {
+mockQuestionSchema.pre('save', function() {
     if (this.answeredAt && this.createdAt) {
         this.timeSpent = Math.floor((this.answeredAt - this.createdAt) / 1000);
     }
-    next();
 });
 
 module.exports = mongoose.model("mockQuestions", mockQuestionSchema);
