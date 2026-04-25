@@ -47,6 +47,11 @@ export const prepSteps = [
         number: '03',
         title: 'Generate your prep plan',
         text: 'Get match score, likely questions, skill gaps, roadmap, and resume guidance in one focused report.'
+    },
+    {
+        number: '04',
+        title: 'Run a mock interview',
+        text: 'Practice one question at a time with instant scoring, gap feedback, improved answers, and a final summary.'
     }
 ]
 

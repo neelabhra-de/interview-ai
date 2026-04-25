@@ -92,7 +92,7 @@ const Landing = () => (
         <section className='landing-section' id='method'>
             <div className='section-heading'>
                 <span>The Architecture Of Prep</span>
-                <h2>Three moves from uncertainty to a plan.</h2>
+                <h2>Four moves from uncertainty to interview-ready execution.</h2>
             </div>
             <div className='steps-grid'>
                 {prepSteps.map(step => (
