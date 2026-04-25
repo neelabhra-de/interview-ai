@@ -22,7 +22,10 @@ $layout-max:     1180px;
     position: relative;
     width: 100%;
     min-height: 112vh;
-    background-color: $bg-page;
+    background:
+        radial-gradient(circle at 95% 8%, rgba($accent, 0.16), transparent 14rem),
+        radial-gradient(circle at 5% 22%, rgba(#4a90e2, 0.1), transparent 16rem),
+        $bg-page;
     color: $text-primary;
     font-family: $font-stack;
 
@@ -41,6 +44,98 @@ $layout-max:     1180px;
     justify-content: flex-end;
     gap: 0.75rem;
     animation: slideInSoft 0.55s ease both;
+}
+
+.prep-insights {
+    width: 100%;
+    max-width: $layout-max;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr 1fr;
+    gap: 0.9rem;
+}
+
+.insight-card {
+    border: 1px solid rgba($border-color, 0.82);
+    border-radius: 0.9rem;
+    background: linear-gradient(150deg, rgba($bg-card, 0.95), rgba($bg-panel, 0.72));
+    padding: 0.95rem 1rem;
+    position: relative;
+    overflow: hidden;
+    animation: slideInSoft 0.5s ease both;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: auto -20% -50% auto;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba($accent, 0.2), transparent 70%);
+        pointer-events: none;
+    }
+}
+
+.insight-card--readiness::after {
+    background: radial-gradient(circle, rgba(#3fb950, 0.22), transparent 70%);
+}
+
+.insight-card__label {
+    margin: 0;
+    color: #b7c0cc;
+    font-size: 0.74rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.insight-card__value {
+    margin-top: 0.45rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+
+    strong {
+        font-size: 2rem;
+        line-height: 1;
+    }
+
+    span {
+        color: $text-muted;
+        font-size: 0.85rem;
+    }
+}
+
+.insight-card__meta {
+    margin: 0.45rem 0 0;
+    font-size: 1.03rem;
+    color: $text-primary;
+    font-weight: 700;
+}
+
+.insight-card small {
+    display: block;
+    margin-top: 0.45rem;
+    color: $text-muted;
+    font-size: 0.76rem;
+    line-height: 1.35;
+    max-width: 90%;
+}
+
+.insight-meter {
+    margin-top: 0.6rem;
+    height: 8px;
+    border-radius: 999px;
+    background-color: rgba($bg-input, 0.85);
+    border: 1px solid rgba($border-color, 0.7);
+    overflow: hidden;
+
+    i {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #3fb950, #57d98a);
+        transition: width 0.25s ease;
+    }
 }
 
 .workspace-action {
@@ -761,6 +856,10 @@ $layout-max:     1180px;
         }
     }
 
+    .prep-insights {
+        grid-template-columns: 1fr;
+    }
+
     .workspace-hub {
         grid-template-columns: 1fr;
     }
@@ -851,6 +950,14 @@ $layout-max:     1180px;
             font-size: 0.8rem;
             max-width: 100%;
         }
+    }
+
+    .insight-card__value strong {
+        font-size: 1.45rem;
+    }
+
+    .insight-card__meta {
+        font-size: 0.9rem;
     }
 
     .interview-card {

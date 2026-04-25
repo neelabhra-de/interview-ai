@@ -18,6 +18,8 @@ const Home = () => {
     const resumeInputRef = useRef()
 
     const navigate = useNavigate()
+    const jobDescriptionChars = jobDescription.length
+    const profileDepthScore = Math.min(100, Math.round(((jobDescription.trim() ? 45 : 0) + (resumeFile ? 35 : 0) + (selfDescription.trim() ? 20 : 0))))
 
     const handleUserLogout = async () => {
         await handleLogout()
@@ -122,6 +124,29 @@ const Home = () => {
                 <p>Let our AI analyze the job requirements and your unique profile to build a winning strategy.</p>
             </header>
 
+            <section className='prep-insights'>
+                <article className='insight-card insight-card--readiness'>
+                    <p className='insight-card__label'>Prep Readiness</p>
+                    <div className='insight-card__value'>
+                        <strong>{profileDepthScore}</strong>
+                        <span>%</span>
+                    </div>
+                    <div className='insight-meter'>
+                        <i style={{ width: `${profileDepthScore}%` }} />
+                    </div>
+                </article>
+                <article className='insight-card'>
+                    <p className='insight-card__label'>Job Description Depth</p>
+                    <p className='insight-card__meta'>{jobDescriptionChars} / 5000 chars</p>
+                    <small>{jobDescriptionChars >= 600 ? 'Great detail level' : 'Add role responsibilities and stack keywords'}</small>
+                </article>
+                <article className='insight-card'>
+                    <p className='insight-card__label'>Profile Source</p>
+                    <p className='insight-card__meta'>{resumeFile ? 'Resume PDF attached' : 'Waiting for resume PDF'}</p>
+                    <small>{resumeFile ? resumeFile.name : 'Upload your resume for stronger match scoring'}</small>
+                </article>
+            </section>
+
             <section className='workspace-hub'>
                 <div className='workspace-hub__main'>
                     {/* Main Card */}
@@ -137,13 +162,14 @@ const Home = () => {
                                     <h2>Target Job Description</h2>
                                     <span className='badge badge--required'>Required</span>
                                 </div>
-                                <textarea
-                                    onChange={(e) => { setJobDescription(e.target.value) }}
-                                    className='panel__textarea'
-                                    placeholder={`Paste the full job description here...\ne.g. 'Senior Frontend Engineer at Google requires proficiency in React, TypeScript, and large-scale system design...'`}
-                                    maxLength={5000}
-                                />
-                                <div className='char-counter'>0 / 5000 chars</div>
+                        <textarea
+                            onChange={(e) => { setJobDescription(e.target.value) }}
+                            value={jobDescription}
+                            className='panel__textarea'
+                            placeholder={`Paste the full job description here...\ne.g. 'Senior Frontend Engineer at Google requires proficiency in React, TypeScript, and large-scale system design...'`}
+                            maxLength={5000}
+                        />
+                        <div className='char-counter'>{jobDescriptionChars} / 5000 chars</div>
                             </div>
 
                             {/* Vertical Divider */}
@@ -187,6 +213,7 @@ const Home = () => {
                                     <label className='section-label' htmlFor='selfDescription'>Quick Self-Description</label>
                                     <textarea
                                         onChange={(e) => { setSelfDescription(e.target.value) }}
+                                        value={selfDescription}
                                         id='selfDescription'
                                         name='selfDescription'
                                         className='panel__textarea panel__textarea--short'
