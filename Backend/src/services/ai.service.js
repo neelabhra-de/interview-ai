@@ -6,6 +6,44 @@ const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GENAI_API_KEY
 })
 
+const MODEL_CANDIDATES = {
+    report: [
+        "gemini-2.5-flash",
+        "gemini-2.0-flash"
+    ],
+    mock: [
+        "gemini-2.5-flash",
+        "gemini-2.0-flash"
+    ]
+}
+
+const isModelNotFoundError = (error) => {
+    const message = error?.message || ""
+    return message.includes("is not found") || message.includes("NOT_FOUND")
+}
+
+async function generateWithModelFallback({ taskType, contents, config }) {
+    const candidates = MODEL_CANDIDATES[taskType] || MODEL_CANDIDATES.mock
+    let lastError = null
+
+    for (const model of candidates) {
+        try {
+            return await ai.models.generateContent({
+                model,
+                contents,
+                config
+            })
+        } catch (error) {
+            lastError = error
+            if (!isModelNotFoundError(error)) {
+                throw error
+            }
+        }
+    }
+
+    throw lastError
+}
+
 
 const interviewReportSchema = z.object({
     matchScore: z.number().describe("A score between 0 and 100 indicating how well the candidate's profile matches the job describe"),
@@ -40,12 +78,12 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
                         Job Description: ${jobDescription}
     `
 
-    const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+    const response = await generateWithModelFallback({
+        taskType: "report",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseJsonSchema: zodToJsonSchema(interviewReportSchema),
+            responseJsonSchema: zodToJsonSchema(interviewReportSchema)
         }
     })
 
@@ -72,12 +110,12 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
                         The resume should not be so lengthy, it should ideally be 1-2 pages long when converted to PDF. Focus on quality rather than quantity and make sure to include all the relevant information that can increase the candidate's chances of getting an interview call for the given job description.
                     `
 
-    const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+    const response = await generateWithModelFallback({
+        taskType: "report",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseJsonSchema: zodToJsonSchema(resumePdfSchema),
+            responseJsonSchema: zodToJsonSchema(resumePdfSchema)
         }
     })
 
@@ -146,12 +184,12 @@ Create a single, focused interview question that:
 
 Return ONLY a valid JSON response.`
 
-    const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+    const response = await generateWithModelFallback({
+        taskType: "mock",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseJsonSchema: zodToJsonSchema(mockQuestionGenerationSchema),
+            responseJsonSchema: zodToJsonSchema(mockQuestionGenerationSchema)
         }
     })
 
@@ -192,12 +230,12 @@ Be fair but constructive. Score from 0-10 where:
 
 Return ONLY a valid JSON response.`
 
-    const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+    const response = await generateWithModelFallback({
+        taskType: "mock",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseJsonSchema: zodToJsonSchema(mockAnswerFeedbackSchema),
+            responseJsonSchema: zodToJsonSchema(mockAnswerFeedbackSchema)
         }
     })
 
@@ -241,8 +279,8 @@ Return JSON with:
   "summary": "2-3 sentence overall assessment"
 }`
 
-    const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+    const response = await generateWithModelFallback({
+        taskType: "mock",
         contents: prompt,
     })
 
