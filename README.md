@@ -2,7 +2,7 @@
 
 Interview AI is a full-stack AI-powered web application that helps users prepare for job interviews by analyzing their resume and target job description to generate a personalized interview strategy.
 
-It provides match scoring, technical & behavioral questions, skill gap analysis, and a structured preparation roadmap, along with an ATS-optimized resume tailored to the role.
+It provides match scoring, technical & behavioral questions, skill gap analysis, and a structured preparation roadmap, along with an ATS-optimized resume and an interactive mock interview experience.
 
 🔗 **Live Demo:** https://interview-ai-green.vercel.app
 
@@ -30,6 +30,15 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
   - Missing skills with priority levels  
 - Preparation Roadmap  
   - Day-wise structured plan  
+
+---
+
+### 🎤 Mock Interview Mode 
+- Practice real interview questions interactively  
+- Submit answers and get **instant AI feedback**  
+- Score-based evaluation with strengths & gaps  
+- Suggested improvements and sample answers  
+- Simulates real interview thinking process  
 
 ---
 
@@ -90,7 +99,7 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
 - Frontend deployed on Vercel  
 - Backend deployed on Render (free tier)  
 - Backend health monitored using UptimeRobot to prevent cold starts  
-- Added `/health` endpoint for uptime checks  
+- `/health` endpoint implemented for uptime checks  
 
 ---
 
@@ -107,6 +116,7 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
    - Preparation roadmap  
 6. Resume is generated as HTML  
 7. Frontend converts it to PDF instantly  
+8. Practice with Mock Interview Mode for real-time feedback  
 
 ---
 
@@ -124,25 +134,31 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
 - GET /api/interview/report/:id → Get single report  
 - POST /api/interview/resume/pdf/:id → Generate resume HTML  
 
+### Mock Interview Routes
+- POST /api/mock/start → Start mock interview  
+- POST /api/mock/answer → Evaluate answer  
+
 ---
 
 ## 📌 Architecture Note
 
-Originally, PDF generation was implemented using Puppeteer (server-side).  
-It was later refactored to **client-side PDF generation using html2pdf.js** to:
+Resume generation is handled using a client-side approach:
 
-- Reduce backend load  
-- Improve performance  
-- Enable deployment on free-tier infrastructure  
+- Backend generates structured HTML using AI  
+- Frontend converts HTML to PDF using html2pdf.js  
+
+This design:
+- Reduces backend load  
+- Improves performance  
+- Ensures compatibility with lightweight deployment environments  
 
 ---
 
 ## 📌 Future Improvements
-- Mock interview simulation  
-- Voice-based interview practice  
+- Voice-based mock interviews  
+- Advanced analytics & progress tracking  
 - Resume comparison (before vs after)  
-- AI feedback on answers  
-- Analytics dashboard  
+- Personalized learning recommendations  
 
 ---
 
