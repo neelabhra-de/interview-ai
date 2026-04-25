@@ -1,4 +1,4 @@
-import { getAllInterviewReports, generateInterviewReport, getInterviewReportById, generateResumePdf } from "../services/interview.api"
+import { getAllInterviewReports, generateInterviewReport, getInterviewReportById, generateResumePdf, startMockInterview as apiStartMockInterview, submitMockAnswer as apiSubmitMockAnswer, getMockInterviewSummary, getMockInterviewHistory } from "../services/interview.api"
 import { useCallback, useContext, useEffect } from "react"
 import { InterviewContext } from "../interview.context"
 import { useParams } from "react-router"
@@ -97,6 +97,65 @@ export const useInterview = () => {
         }
     }, [ setError ])
 
+    /**
+     * Mock Interview Functions
+     */
+
+    const startMockInterview = useCallback(async ({ role, difficulty }) => {
+        setError("")
+        try {
+            const response = await apiStartMockInterview({ role, difficulty })
+            return response
+        } catch (error) {
+            console.log(error)
+            const errorMsg = error.response?.data?.message || "Could not start mock interview."
+            setError(errorMsg)
+            throw new Error(errorMsg)
+        }
+    }, [setError])
+
+    const submitMockAnswer = useCallback(async ({ sessionId, answer }) => {
+        setError("")
+        try {
+            const response = await apiSubmitMockAnswer({ sessionId, answer })
+            return response
+        } catch (error) {
+            console.log(error)
+            const errorMsg = error.response?.data?.message || "Could not submit answer."
+            setError(errorMsg)
+            throw new Error(errorMsg)
+        }
+    }, [setError])
+
+    const getMockSummary = useCallback(async (sessionId) => {
+        setError("")
+        try {
+            const response = await getMockInterviewSummary(sessionId)
+            return response.summary
+        } catch (error) {
+            console.log(error)
+            const errorMsg = error.response?.data?.message || "Could not get summary."
+            setError(errorMsg)
+            throw new Error(errorMsg)
+        }
+    }, [setError])
+
+    const getMockHistory = useCallback(async () => {
+        setLoading(true)
+        setError("")
+        try {
+            const response = await getMockInterviewHistory()
+            return response.sessions
+        } catch (error) {
+            console.log(error)
+            const errorMsg = error.response?.data?.message || "Could not get history."
+            setError(errorMsg)
+            throw new Error(errorMsg)
+        } finally {
+            setLoading(false)
+        }
+    }, [setError, setLoading])
+
     useEffect(() => {
         if (id) {
             getReportById(id)
@@ -105,6 +164,20 @@ export const useInterview = () => {
         }
     }, [ id, getReportById, getReports ])
 
-    return { loading, error, report, reports, generateReport, getReportById, getReports, getResumePdf }
+    return { 
+        loading, 
+        error, 
+        report, 
+        reports, 
+        generateReport, 
+        getReportById, 
+        getReports, 
+        getResumePdf,
+        // Mock interview functions
+        startMockInterview,
+        submitMockAnswer,
+        getMockSummary,
+        getMockHistory
+    }
 
 }

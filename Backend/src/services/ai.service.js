@@ -87,5 +87,188 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
 }
 
 
+/**
+ * Schema for mock interview question generation
+ * Used with cheaper Gemini model (1.5 Flash or Nano)
+ */
+const mockQuestionGenerationSchema = z.object({
+    question: z.string().describe("A clear and specific technical, behavioral, or system design question appropriate for the given role and difficulty level"),
+    category: z.enum(["technical", "behavioral", "system-design"]).describe("Category of the question"),
+})
 
-module.exports = { generateInterviewReport, generateResumePdf }
+
+/**
+ * Schema for mock interview answer feedback
+ * Used with cheaper Gemini model (1.5 Flash or Nano)
+ */
+const mockAnswerFeedbackSchema = z.object({
+    score: z.number().min(0).max(10).describe("Score from 0-10 for the answer quality"),
+    strengths: z.array(z.string()).describe("List of 2-3 strengths or good points in the answer"),
+    gaps: z.array(z.string()).describe("List of 2-3 areas that could be improved or missing points"),
+    improvedAnswer: z.string().describe("A concise improved version of the answer that incorporates the feedback"),
+})
+
+
+/**
+ * Generate a mock interview question using cheaper model (Gemini 1.5 Flash/Nano)
+ * @param {String} role - Job role for context
+ * @param {String} difficulty - Question difficulty (beginner/intermediate/advanced)
+ * @param {String} category - Question category (technical/behavioral/system-design)
+ * @param {Array} previousQuestions - Already asked questions to avoid repetition
+ * @returns {Promise<Object>} Generated question
+ */
+async function generateMockQuestion({ role, difficulty, category, previousQuestions = [] }) {
+    const difficultyGuide = {
+        beginner: "basic concepts, entry-level understanding",
+        intermediate: "moderate depth, some practical experience required",
+        advanced: "complex scenarios, system design, optimization"
+    }
+
+    const categoryGuide = {
+        technical: "coding, algorithms, data structures, or technology-specific questions",
+        behavioral: "team collaboration, conflict resolution, problem-solving approaches",
+        "system-design": "architecture, scalability, database design, high-level system thinking"
+    }
+
+    const prompt = `Generate a mock interview question for a ${role} position.
+
+Difficulty Level: ${difficulty} - ${difficultyGuide[difficulty]}
+Question Category: ${category} - ${categoryGuide[category]}
+
+${previousQuestions.length > 0 ? `Already asked questions (avoid similar ones):\n${previousQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}\n` : ''}
+
+Create a single, focused interview question that:
+- Is appropriate for the ${difficulty} level
+- Falls under the ${category} category
+- Is clear and specific (not vague)
+- Can be answered in 2-5 minutes
+- Tests relevant skills for the ${role} role
+
+Return ONLY a valid JSON response.`
+
+    const response = await ai.models.generateContent({
+        model: "gemini-1.5-flash",
+        contents: prompt,
+        config: {
+            responseMimeType: "application/json",
+            responseJsonSchema: zodToJsonSchema(mockQuestionGenerationSchema),
+        }
+    })
+
+    const question = JSON.parse(response.text)
+    return mockQuestionGenerationSchema.parse(question)
+}
+
+
+/**
+ * Generate feedback for a user's mock interview answer
+ * @param {String} question - The question asked
+ * @param {String} userAnswer - User's answer text
+ * @param {String} role - Job role for context
+ * @param {String} difficulty - Difficulty level for scoring context
+ * @returns {Promise<Object>} Feedback with score, strengths, gaps, and improved answer
+ */
+async function generateAnswerFeedback({ question, userAnswer, role, difficulty }) {
+    const prompt = `You are an experienced interview mentor evaluating a candidate's response.
+
+Job Role: ${role}
+Difficulty Level: ${difficulty}
+Question Asked: "${question}"
+Candidate's Answer: "${userAnswer}"
+
+Evaluate the answer and provide structured feedback. Consider:
+- Clarity and coherence of the response
+- Relevant technical depth for the difficulty level
+- Problem-solving approach (if applicable)
+- Communication style and professionalism
+- Completeness of the answer
+
+Be fair but constructive. Score from 0-10 where:
+- 8-10: Excellent, comprehensive answer
+- 6-7: Good answer with minor gaps
+- 4-5: Acceptable but missing key points
+- 2-3: Poor, significant gaps or misunderstandings
+- 0-1: No value or completely off-topic
+
+Return ONLY a valid JSON response.`
+
+    const response = await ai.models.generateContent({
+        model: "gemini-1.5-flash",
+        contents: prompt,
+        config: {
+            responseMimeType: "application/json",
+            responseJsonSchema: zodToJsonSchema(mockAnswerFeedbackSchema),
+        }
+    })
+
+    const feedback = JSON.parse(response.text)
+    return mockAnswerFeedbackSchema.parse(feedback)
+}
+
+
+/**
+ * Generate final summary and improvement tips for a completed mock interview
+ * @param {Array} questions - Array of {question, userAnswer, feedback} objects
+ * @param {String} role - Job role
+ * @returns {Promise<Object>} Summary with overall score, weak areas, and tips
+ */
+async function generateMockInterviewSummary({ questions, role }) {
+    const questionsSummary = questions.map((q, i) => 
+        `Q${i + 1}: ${q.question}\nScore: ${q.feedback.score}/10\nGaps: ${q.feedback.gaps.join(', ')}`
+    ).join('\n\n')
+
+    const averageScore = (questions.reduce((sum, q) => sum + q.feedback.score, 0) / questions.length).toFixed(1)
+
+    const prompt = `Analyze this mock interview performance for a ${role} candidate.
+
+Average Score: ${averageScore}/10
+Total Questions: ${questions.length}
+
+Detailed Responses:
+${questionsSummary}
+
+Identify:
+1. Top 2-3 weak areas across all answers
+2. 3-4 specific, actionable improvement tips
+3. Overall assessment
+
+Be encouraging but honest. Focus on practical improvements.
+
+Return JSON with:
+{
+  "weakAreas": ["area1", "area2", "area3"],
+  "improvementTips": ["tip1", "tip2", "tip3", "tip4"],
+  "summary": "2-3 sentence overall assessment"
+}`
+
+    const response = await ai.models.generateContent({
+        model: "gemini-1.5-flash",
+        contents: prompt,
+    })
+
+    const text = response.text
+    try {
+        return JSON.parse(text)
+    } catch {
+        // Fallback if not valid JSON
+        return {
+            weakAreas: ["Communication clarity", "Technical depth", "Real-world examples"],
+            improvementTips: [
+                "Practice explaining solutions step-by-step",
+                "Include concrete examples from past projects",
+                "Review fundamentals for your role",
+                "Practice under time constraints"
+            ],
+            summary: "Good effort. Continue practicing with mock interviews to build confidence."
+        }
+    }
+}
+
+
+module.exports = { 
+    generateInterviewReport, 
+    generateResumePdf,
+    generateMockQuestion,
+    generateAnswerFeedback,
+    generateMockInterviewSummary
+}

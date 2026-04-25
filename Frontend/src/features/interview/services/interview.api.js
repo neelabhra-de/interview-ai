@@ -52,3 +52,45 @@ export const generateResumePdf = async ({ interviewReportId }) => {
 
     return response.data
 }
+
+
+/**
+ * ────────────────────────────────────────────────────────────
+ * MOCK INTERVIEW API FUNCTIONS (NEW FEATURE)
+ * ────────────────────────────────────────────────────────────
+ */
+
+/**
+ * @description Start a new mock interview session
+ */
+export const startMockInterview = async ({ role, difficulty }) => {
+    const response = await api.post("/api/interview/mock/start", { role, difficulty })
+    return response.data
+}
+
+
+/**
+ * @description Submit an answer to a mock interview question and get feedback
+ */
+export const submitMockAnswer = async ({ sessionId, answer }) => {
+    const response = await api.post("/api/interview/mock/answer", { sessionId, answer })
+    return response.data
+}
+
+
+/**
+ * @description Get final summary of a completed mock interview
+ */
+export const getMockInterviewSummary = async (sessionId) => {
+    const response = await api.get(`/api/interview/mock/summary/${sessionId}`)
+    return response.data
+}
+
+
+/**
+ * @description Get user's mock interview history (past sessions)
+ */
+export const getMockInterviewHistory = async () => {
+    const response = await api.get("/api/interview/mock/history")
+    return response.data
+}
