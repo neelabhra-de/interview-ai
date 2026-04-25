@@ -5,7 +5,7 @@ import QuestionDisplay from './QuestionDisplay';
 import AnswerInput from './AnswerInput';
 import FeedbackCard from './FeedbackCard';
 import SessionSummary from './SessionSummary';
-import './mock-interview.scss';
+import '../style/mock-interview.scss';
 
 /**
  * Main component for mock interview flow
