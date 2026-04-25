@@ -5,7 +5,7 @@ import { useParams } from "react-router"
 import html2pdf from "html2pdf.js"
 
 
-export const useInterview = () => {
+export const useInterview = ({ autoFetch = true } = {}) => {
 
     const context = useContext(InterviewContext)
     const { id } = useParams()
@@ -157,12 +157,16 @@ export const useInterview = () => {
     }, [setError, setLoading])
 
     useEffect(() => {
+        if (!autoFetch) {
+            return
+        }
+
         if (id) {
             getReportById(id)
         } else {
             getReports()
         }
-    }, [ id, getReportById, getReports ])
+    }, [ autoFetch, id, getReportById, getReports ])
 
     return { 
         loading, 

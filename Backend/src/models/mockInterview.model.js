@@ -14,7 +14,7 @@ const mockInterviewSchema = new mongoose.Schema({
     // Link to existing interview report (optional - user can choose to reuse)
     reportId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "interviewReports",
+        ref: "InterviewReport",
         default: null
     },
     
