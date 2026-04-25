@@ -41,6 +41,22 @@ function pickUnusedReportQuestion(report, previousQuestions = []) {
     return candidates[randomIndex]
 }
 
+function getFallbackQuestion({ role, difficulty, category }) {
+    const levelHint = difficulty === 'advanced'
+        ? 'Include trade-offs and scaling concerns.'
+        : difficulty === 'beginner'
+            ? 'Keep it clear and focused on fundamentals.'
+            : 'Include practical examples from work.'
+
+    const templates = {
+        technical: `For a ${role} role, explain how you would approach a challenging technical problem from start to finish. ${levelHint}`,
+        behavioral: `Tell me about a time you handled a difficult team situation as a ${role}. What did you do and what was the outcome? ${levelHint}`,
+        'system-design': `Design a reliable, scalable service relevant to a ${role} role. Explain components, bottlenecks, and trade-offs. ${levelHint}`
+    }
+
+    return templates[category] || templates.technical
+}
+
 async function createNextQuestion({ session, previousQuestions, report }) {
     const fromReport = pickUnusedReportQuestion(report, previousQuestions)
 
@@ -55,17 +71,30 @@ async function createNextQuestion({ session, previousQuestions, report }) {
 
     const randomCategory = categories[Math.floor(Math.random() * categories.length)]
 
-    const generated = await generateMockQuestion({
-        role: session.role,
-        difficulty: session.difficulty,
-        category: randomCategory,
-        previousQuestions
-    })
+    try {
+        const generated = await generateMockQuestion({
+            role: session.role,
+            difficulty: session.difficulty,
+            category: randomCategory,
+            previousQuestions
+        })
 
-    return {
-        question: generated.question,
-        category: generated.category,
-        source: 'fresh'
+        return {
+            question: generated.question,
+            category: generated.category,
+            source: 'fresh'
+        }
+    } catch (error) {
+        console.error('AI question generation failed, using fallback question:', error.message)
+        return {
+            question: getFallbackQuestion({
+                role: session.role,
+                difficulty: session.difficulty,
+                category: randomCategory
+            }),
+            category: randomCategory,
+            source: 'fresh'
+        }
     }
 }
 

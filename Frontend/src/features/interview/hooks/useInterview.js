@@ -16,6 +16,13 @@ export const useInterview = ({ autoFetch = true } = {}) => {
 
     const { loading, setLoading, error, setError, report, setReport, reports, setReports } = context
 
+    const extractErrorMessage = useCallback((fallback, error) => {
+        const apiMessage = error?.response?.data?.message
+        const apiDetail = error?.response?.data?.error
+        const composed = [ apiMessage, apiDetail ].filter(Boolean).join(": ")
+        return composed || error?.message || fallback
+    }, [])
+
     const generateReport = useCallback(async ({ jobDescription, selfDescription, resumeFile }) => {
         setLoading(true)
         setError("")
@@ -108,11 +115,11 @@ export const useInterview = ({ autoFetch = true } = {}) => {
             return response
         } catch (error) {
             console.log(error)
-            const errorMsg = error.response?.data?.message || "Could not start mock interview."
+            const errorMsg = extractErrorMessage("Could not start mock interview.", error)
             setError(errorMsg)
             throw new Error(errorMsg)
         }
-    }, [setError])
+    }, [ setError, extractErrorMessage ])
 
     const submitMockAnswer = useCallback(async ({ sessionId, answer }) => {
         setError("")
@@ -121,11 +128,11 @@ export const useInterview = ({ autoFetch = true } = {}) => {
             return response
         } catch (error) {
             console.log(error)
-            const errorMsg = error.response?.data?.message || "Could not submit answer."
+            const errorMsg = extractErrorMessage("Could not submit answer.", error)
             setError(errorMsg)
             throw new Error(errorMsg)
         }
-    }, [setError])
+    }, [ setError, extractErrorMessage ])
 
     const getMockSummary = useCallback(async (sessionId) => {
         setError("")
@@ -134,11 +141,11 @@ export const useInterview = ({ autoFetch = true } = {}) => {
             return response.summary
         } catch (error) {
             console.log(error)
-            const errorMsg = error.response?.data?.message || "Could not get summary."
+            const errorMsg = extractErrorMessage("Could not get summary.", error)
             setError(errorMsg)
             throw new Error(errorMsg)
         }
-    }, [setError])
+    }, [ setError, extractErrorMessage ])
 
     const getMockHistory = useCallback(async () => {
         setLoading(true)
@@ -148,13 +155,13 @@ export const useInterview = ({ autoFetch = true } = {}) => {
             return response.sessions
         } catch (error) {
             console.log(error)
-            const errorMsg = error.response?.data?.message || "Could not get history."
+            const errorMsg = extractErrorMessage("Could not get history.", error)
             setError(errorMsg)
             throw new Error(errorMsg)
         } finally {
             setLoading(false)
         }
-    }, [setError, setLoading])
+    }, [ setError, setLoading, extractErrorMessage ])
 
     useEffect(() => {
         if (!autoFetch) {
