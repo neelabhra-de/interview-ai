@@ -6,8 +6,8 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
 
 🔗 **Live Demo:** https://interview-ai-green.vercel.app
 
-<img width="1919" height="891" alt="Screenshot 2026-04-26 000259" src="https://github.com/user-attachments/assets/61bc9d86-8e6d-4dc1-938c-add1bba1b73b" />
-<img width="1916" height="903" alt="Screenshot 2026-04-26 000022" src="https://github.com/user-attachments/assets/d832528c-b534-4f0d-8df4-b54a1690bdda" />
+<img width="1919" height="891" alt="Screenshot 2026-04-26 000259" src="https://github.com/user-attachments/assets/61bc9d86-8e6d-4dc1-938c-add1bba1b73b" />  <img width="1916" height="903" alt="Screenshot 2026-04-26 000022" src="https://github.com/user-attachments/assets/d832528c-b534-4f0d-8df4-b54a1690bdda" />
+
 <img width="1917" height="904" alt="Screenshot 2026-04-25 235909" src="https://github.com/user-attachments/assets/632db050-5452-481f-8665-dd54201f291a" />
 
 
