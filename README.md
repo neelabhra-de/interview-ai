@@ -8,17 +8,25 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
 
 ## 📸 Screenshots
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/61bc9d86-8e6d-4dc1-938c-add1bba1b73b" width="32%" />
-  <img src="https://github.com/user-attachments/assets/d832528c-b534-4f0d-8df4-b54a1690bdda" width="32%" />
-  <img src="https://github.com/user-attachments/assets/632db050-5452-481f-8665-dd54201f291a" width="32%" />
-</p>
-
-<p align="center">
-  <b>Landing Page</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <b>Interview Report</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <b>Mock Interview Mode</b>
-</p>
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/61bc9d86-8e6d-4dc1-938c-add1bba1b73b" width="100%" />
+      <br/>
+      <b>Landing Page</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/d832528c-b534-4f0d-8df4-b54a1690bdda" width="100%" />
+      <br/>
+      <b>Interview Report</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/632db050-5452-481f-8665-dd54201f291a" width="100%" />
+      <br/>
+      <b>Mock Interview Mode</b>
+    </td>
+  </tr>
+</table>
 
 
 ---
