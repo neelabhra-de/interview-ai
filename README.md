@@ -28,7 +28,6 @@ It provides match scoring, technical & behavioral questions, skill gap analysis,
   </tr>
 </table>
 
-
 ---
 
 ## ✨ Features
