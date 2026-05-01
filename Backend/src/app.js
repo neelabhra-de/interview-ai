@@ -7,16 +7,31 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 
-// Configure CORS to accept requests from multiple origins
-const allowedOrigins = [
-    "http://localhost:5173",                           // Local development
-    process.env.FRONTEND_URL,                          // Environment variable (production frontend)
-    "https://interview-ai-green.vercel.app",           // Vercel deployment
-].filter(Boolean)
+// Configure CORS to accept local dev, explicit frontend URLs, and Vercel preview domains.
+const allowedOrigins = new Set(
+    [
+        "http://localhost:5173",
+        process.env.FRONTEND_URL,
+        "https://interview-ai-green.vercel.app",
+        ...(process.env.FRONTEND_URLS || "")
+            .split(",")
+            .map((origin) => origin.trim())
+            .filter(Boolean)
+    ].filter(Boolean)
+)
+
+function isAllowedVercelPreview(origin) {
+    try {
+        const url = new URL(origin)
+        return url.protocol === "https:" && url.hostname.endsWith(".vercel.app")
+    } catch {
+        return false
+    }
+}
 
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || allowedOrigins.has(origin) || isAllowedVercelPreview(origin)) {
             callback(null, true)
         } else {
             callback(new Error("Not allowed by CORS"))
